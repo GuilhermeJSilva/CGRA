@@ -4,7 +4,7 @@
  * @constructor
  */
 
-class myTable extends CGFobject {
+class MyTable extends CGFobject {
   constructor(scene) {
     super(scene);
     this.cube = new MyUnitCubeQuad(this.scene);

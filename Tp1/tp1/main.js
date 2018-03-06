@@ -33,7 +33,7 @@ serialInclude = function(a) {
 };
 serialInclude.l = new Array();
 
-serialInclude(['../lib/CGF.js', 'TPscene.js', 'MyUnitCubeQuad.js', 'MyUnitCube.js', 'MyQuad.js', 'myTable.js', 'myFloor.js',
+serialInclude(['../lib/CGF.js', 'TPscene.js', 'MyUnitCubeQuad.js', 'MyUnitCube.js', 'MyQuad.js', 'MyTable.js', 'myFloor.js',
 
   main = function() {
     var app = new CGFapplication(document.body);
