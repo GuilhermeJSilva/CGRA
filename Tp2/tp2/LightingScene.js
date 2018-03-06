@@ -153,7 +153,9 @@ class LightingScene extends CGFscene
 			this.rotate(-90 * degToRad, 1, 0, 0);
 			this.scale(15, 15, 0.2);
 			this.floorMaterial.apply();
+
 			this.floor.display();
+			this.materialDefault.apply();
 		this.popMatrix();
 
 		// Left Wall
@@ -162,7 +164,9 @@ class LightingScene extends CGFscene
 			this.rotate(90 * degToRad, 0, 1, 0);
 			this.scale(15, 8, 0.2);
 			this.wallMaterial.apply();
+
 			this.wall.display();
+			this.materialDefault.apply();
 		this.popMatrix();
 
 		// Plane Wall
@@ -170,7 +174,9 @@ class LightingScene extends CGFscene
 			this.translate(7.5, 4, 0);
 			this.scale(15, 8, 0.2);
 			this.wallMaterial.apply();
+
 			this.wall.display();
+			this.materialDefault.apply();
 		this.popMatrix();
 
 		// First Table
