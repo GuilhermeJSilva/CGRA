@@ -5,103 +5,125 @@
  */
 
 class MyPrism extends CGFobject {
-    constructor(scene, slices, stacks) {
-        super(scene);
+  constructor(scene, slices, stacks) {
+    super(scene);
 
-        this.slices = slices;
-        this.stacks = stacks;
-        this.delta = 2 * Math.PI / slices;
+    this.slices = slices;
+    this.stacks = stacks;
+    this.delta = 2 * Math.PI / this.slices;
 
-        this.vertices = new Array();
-        this.indices = new Array();
-        this.normal = new Array();
-        this.initBuffers();
-    }
-    ;initVertices() {
-        for (var i = this.delta; i <= 2 * Math.PI; i = i + this.delta) {
+    this.vertices = new Array();
+    this.indices = new Array();
+    this.normals = new Array();
+    this.initBuffers();
+  };
 
-            this.vertices.push(Math.cos(i));
-            this.vertices.push(Math.sin(i));
-            this.vertices.push(0);
+  initVIN() {
+    var alt = 1 / this.stacks;
+    for (var stack = 0; stack < this.stacks; stack++) {
 
-            this.vertices.push(Math.cos(i));
-            this.vertices.push(Math.sin(i));
-            this.vertices.push(1);
+      for (var slice = 0; slice < this.slices; slice++) {
+
+
+        this.vertices.push(Math.cos((slice + 1) * this.delta));
+        this.vertices.push(Math.sin((slice + 1) * this.delta));
+        this.vertices.push(stack * alt);
+
+
+        this.vertices.push(Math.cos(slice * this.delta));
+        this.vertices.push(Math.sin(slice * this.delta));
+        this.vertices.push((stack + 1) * alt);
+
+
+        this.vertices.push(Math.cos(slice * this.delta));
+        this.vertices.push(Math.sin(slice * this.delta));
+        this.vertices.push(stack * alt);
+
+
+        this.vertices.push(Math.cos((slice + 1) * this.delta));
+        this.vertices.push(Math.sin((slice + 1) * this.delta));
+        this.vertices.push(stack * alt);
+
+
+        this.vertices.push(Math.cos((slice + 1) * this.delta));
+        this.vertices.push(Math.sin((slice + 1) * this.delta));
+        this.vertices.push((stack + 1) * alt);
+
+
+        this.vertices.push(Math.cos(slice * this.delta));
+        this.vertices.push(Math.sin(slice * this.delta));
+        this.vertices.push((stack + 1) * alt);
+
+
+
+        for (var i = 6; i > 0; i--) {
+          this.indices.push((this.vertices.length / 3) - i);
         }
 
-        this.vertices.push(0);
-        this.vertices.push(0);
-        this.vertices.push(0);
-
-        this.vertices.push(0);
-        this.vertices.push(0);
-        this.vertices.push(1);
-
-
-    }
-    ;initIndices() {
-
-        for (var i = 0; i < this.vertices.length - 6; i++) {
-
-            if (i % 2 == 0) {
-                this.indices.push((i + 2) % (this.vertices.length/3 - 2));
-                this.indices.push((i + 1) % (this.vertices.length/3 - 2))
-                this.indices.push((i) % (this.vertices.length/3 - 2));
-            } else {
-                this.indices.push((i) % (this.vertices.length/3 - 2));
-                this.indices.push((i + 1) % (this.vertices.length/3 - 2))
-                this.indices.push((i + 2) % (this.vertices.length/3 - 2));
-            }
-
+        for (var i = 0; i < 3; i++) {
+          this.normals.push(Math.cos(this.delta / 2) + slice * this.delta);
+          this.normals.push(Math.sin(this.delta / 2));
+          this.normals.push(0);
         }
 
-        for (var i = 0; i < (this.slices*2); i++) {
-           
-            if (i % 2 == 0) {
-                this.indices.push(this.vertices.length/3 - 2);
-                this.indices.push((i + 2) % (this.vertices.length/3 - 2))
-                this.indices.push((i) % (this.vertices.length/3 - 2));
-            } else {
-                this.indices.push((i) % (this.vertices.length/3 - 2));
-                this.indices.push((i + 2) % (this.vertices.length/3 - 2))
-                this.indices.push(this.vertices.length/3 - 1);
-            }
+        for (var i = 0; i < 3; i++) {
+          this.normals.push(Math.cos(this.delta / 2) + slice * this.delta);
+          this.normals.push(Math.sin(this.delta / 2));
+          this.normals.push(0);
         }
+      }
     }
-    ;
-    initNormal() {
-        for (var i = this.delta/2; i <= 2 * Math.PI; i += this.delta) {
-          
-            this.normal.push(Math.cos(i));
-            this.normal.push(Math.sin(i));
-            this.normal.push(0);
-        }
-        debugger;
+    /* TAMPAS
+    for (var slice = 0; slice < this.slices; slice++) {
 
-        for (var i = 0; i < (this.slices*2); i++) {
-              if (i % 2 == 0) {
-                this.normal.push(0);
-                this.normal.push(0)
-                this.normal.push(-1);
-            } else {
-                this.normal.push(0);
-                this.normal.push(0)
-                this.normal.push(1);
-            }
-        }
+      this.vertices.push(0);
+      this.vertices.push(0);
+      this.vertices.push(0);
 
-    }
-    ;initBuffers() {
+      this.vertices.push(Math.cos((slice + 1) * this.delta));
+      this.vertices.push(Math.sin((slice + 1) * this.delta));
+      this.vertices.push(0);
 
-        this.initVertices();
+      this.vertices.push(Math.cos(slice * this.delta));
+      this.vertices.push(Math.sin(slice * this.delta));
+      this.vertices.push(0);
 
-        this.initIndices();
 
-        this.initNormal();
+      this.vertices.push(Math.cos(slice * this.delta));
+      this.vertices.push(Math.sin(slice * this.delta));
+      this.vertices.push(1);
 
-        this.primitiveType = this.scene.gl.TRIANGLES;
-        this.initGLBuffers();
-    }
-    ;
-}
-;
+      this.vertices.push(Math.cos((slice + 1) * this.delta));
+      this.vertices.push(Math.sin((slice + 1) * this.delta));
+      this.vertices.push(1);
+
+      this.vertices.push(0);
+      this.vertices.push(0);
+      this.vertices.push(1);
+
+      console.log(this.vertices);
+      for (var i = 6; i > 0; i--) {
+        this.indices.push((this.vertices.length / 3) - i);
+      }
+
+      for (var i = 0; i < 3; i++) {
+        this.normals.push(0);
+        this.normals.push(0);
+        this.normals.push(-1);
+      }
+
+      for (var i = 0; i < 3; i++) {
+        this.normals.push(0);
+        this.normals.push(0);
+        this.normals.push(1);
+      }
+    }*/
+
+  };
+
+  initBuffers() {
+    this.initVIN();
+    this.primitiveType = this.scene.gl.TRIANGLES;
+    this.initGLBuffers();
+  };
+};
