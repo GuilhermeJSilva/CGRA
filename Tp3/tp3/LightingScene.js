@@ -37,8 +37,9 @@ class LightingScene extends CGFscene
 		this.boardA = new Plane(this, BOARD_A_DIVISIONS);
 		this.boardB = new Plane(this, BOARD_B_DIVISIONS);
 
-		this.prism = new MyPrism(this, 12, 2);
+		this.prism = new MyPrism(this, 8, 20);
 		this.cilinder = new MyCilinder(this, 8, 20);
+		this.lamp = new MyLamp(this, 8,20);
 
 		// Materials
 		this.materialDefault = new CGFappearance(this);
@@ -150,9 +151,9 @@ class LightingScene extends CGFscene
 		// ---- END Background, camera and axis setup
 
 		// ---- BEGIN Scene drawing section
-
 		//this.prism.display();
-		this.cilinder.display();
+		//this.cilinder.display();
+		this.lamp.display();
 		//this.boardA.display();
 /*
 		// Floor
