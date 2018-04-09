@@ -151,9 +151,9 @@ class LightingScene extends CGFscene
 		// ---- END Background, camera and axis setup
 
 		// ---- BEGIN Scene drawing section
-		//this.prism.display();
+		this.prism.display();
 		//this.cilinder.display();
-		this.lamp.display();
+		//this.lamp.display();
 		//this.boardA.display();
 /*
 		// Floor

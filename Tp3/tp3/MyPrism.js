@@ -61,14 +61,14 @@ class MyPrism extends CGFobject {
         }
 
         for (var i = 0; i < 3; i++) {
-          this.normals.push(Math.cos(this.delta / 2) + slice * this.delta);
-          this.normals.push(Math.sin(this.delta / 2));
+          this.normals.push(Math.cos(this.delta / 2 + slice * this.delta));
+          this.normals.push(Math.sin(this.delta / 2 + slice * this.delta));
           this.normals.push(0);
         }
 
         for (var i = 0; i < 3; i++) {
-          this.normals.push(Math.cos(this.delta / 2) + slice * this.delta);
-          this.normals.push(Math.sin(this.delta / 2));
+          this.normals.push(Math.cos(this.delta / 2 + slice * this.delta));
+          this.normals.push(Math.sin(this.delta / 2 + slice * this.delta));
           this.normals.push(0);
         }
       }
