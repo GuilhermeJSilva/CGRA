@@ -44,6 +44,8 @@ class LightingScene extends CGFscene
 		this.cilinder = new MyCilinder(this, 8, 20, 0, 1, 0, 1);
 		this.lamp = new MyLamp(this, 8,20);
 
+		this.clock = new MyClock(this, 12, 1);
+		this.clock.setTime(3, 30, 45);
 		// Materials
 		this.materialDefault = new CGFappearance(this);
 
@@ -109,6 +111,15 @@ class LightingScene extends CGFscene
 		this.columnAppearance.setSpecular(0.3, 0.3, 0.3, 1);
 		this.columnAppearance.setShininess(10);
 		this.columnAppearance.loadTexture('../resources/images/stone.jpg');
+
+		this.clockAppearance = new CGFappearance(this);
+		this.clockAppearance.loadTexture('../resources/images/clock.png');
+
+		this.clockHandAppearance = new CGFappearance(this);
+		this.clockHandAppearance.setAmbient(0, 0, 0,1);
+		this.clockHandAppearance.setDiffuse(0, 0, 0,1);
+		this.clockHandAppearance.setSpecular(0,0,0,1);
+
 
 	};
 
@@ -207,7 +218,7 @@ class LightingScene extends CGFscene
 		//this.lamp.display();
 		//this.boardA.display();
 
-
+/*
 		// Floor
 		this.pushMatrix();
 		this.translate(7.5, 0, 7.5);
@@ -238,16 +249,12 @@ class LightingScene extends CGFscene
 		// First Table
 		this.pushMatrix();
 		this.translate(5, 0, 8);
-		this.tampo.apply();
-		this.perna.apply();
 		this.table.display();
 		this.popMatrix();
 
 		// Second Table
 		this.pushMatrix();
 		this.translate(12, 0, 8);
-		this.tampo.apply();
-		this.perna.apply();
 		this.table.display();
 		this.popMatrix();
 
@@ -284,8 +291,20 @@ class LightingScene extends CGFscene
 		this.columnAppearance.apply();
 		this.cilinder.display();
 		this.popMatrix();
+*/
+		//clock
+		this.pushMatrix();
+		this.translate(7.25, 7.25, 0)
+		this.scale(0.5,0.5, 0.1);
+		this.clock.display();
+		this.popMatrix();
+
 
 		// ---- END Scene drawing section
 
 	};
+
+	update(currentTime) {
+
+	}
 };
