@@ -45,7 +45,9 @@ class LightingScene extends CGFscene
 		this.lamp = new MyLamp(this, 8,20);
 
 		this.clock = new MyClock(this, 12, 1);
-		this.clock.setTime(3, 30, 45);
+		this.clock.setTime(3, 59, 45);
+
+		this.airplane =  new MovingAirplane(this);
 		// Materials
 		this.materialDefault = new CGFappearance(this);
 
@@ -125,7 +127,7 @@ class LightingScene extends CGFscene
 
 	initCameras()
 	{
-		this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(30, 30, 30), vec3.fromValues(0, 0, 0));
+		this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(7.5, 7.5, 7.5), vec3.fromValues(0, 0, 0));
 	};
 
 	initLights()
@@ -178,6 +180,9 @@ class LightingScene extends CGFscene
 		this.lights[4].setLinearAttenuation(0);
 		this.lights[4].setQuadraticAttenuation(0.2);
 		this.lights[4].enable();
+
+		this.oldtime = 0;
+		this.setUpdatePeriod(100);
 	};
 
 	updateLights()
@@ -218,7 +223,7 @@ class LightingScene extends CGFscene
 		//this.lamp.display();
 		//this.boardA.display();
 
-/*
+		/*
 		// Floor
 		this.pushMatrix();
 		this.translate(7.5, 0, 7.5);
@@ -291,7 +296,7 @@ class LightingScene extends CGFscene
 		this.columnAppearance.apply();
 		this.cilinder.display();
 		this.popMatrix();
-*/
+
 		//clock
 		this.pushMatrix();
 		this.translate(7.25, 7.25, 0)
@@ -299,12 +304,23 @@ class LightingScene extends CGFscene
 		this.clock.display();
 		this.popMatrix();
 
-
+		*/
+		 //airplane
+		 this.pushMatrix();
+		 this.airplane.display();
+		 this.popMatrix();
 		// ---- END Scene drawing section
 
 	};
 
 	update(currentTime) {
-
+		if (this.oldtime == 0) {
+			this.oldtime = currentTime;
+			return;
+		}
+		var elapsedTime =  currentTime - this.oldtime;
+		this.clock.update(elapsedTime);
+		this.airplane.update(elapsedTime);
+		this.oldtime = currentTime;
 	}
 };

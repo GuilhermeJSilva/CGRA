@@ -1,8 +1,8 @@
 /**
-* MyObject
-* @param gl {WebGLRenderingContext}
-* @constructor
-*/
+ * MyObject
+ * @param gl {WebGLRenderingContext}
+ * @constructor
+ */
 
 class MyClock extends CGFobject {
   constructor(scene, slices, stacks) {
@@ -18,7 +18,6 @@ class MyClock extends CGFobject {
     this.minute = 0;
     this.second = 0;
 
-    this.startTime = Date.now().getTime();
   };
 
   initBuffers() {
@@ -40,12 +39,20 @@ class MyClock extends CGFobject {
   }
 
   setTime(hour, minute, second) {
-    this.hourHand.setAngle((hour % 12) * 360/12 + 360*minute/12/60 + 360/12/3600*second);
-    this.minuteHand.setAngle(360*minute/60);
-    this.secondHand.setAngle(360/60*second);
+    this.hour = hour;
+    this.minute = minute;
+    this.second = second;
+    this.hourHand.setAngle((hour % 12) * 360 / 12 + 360 * minute / 12 / 60 + 360 / 12 / 3600 * second);
+    this.minuteHand.setAngle(360 * minute / 60);
+    this.secondHand.setAngle(360 / 60 * second);
   }
 
   update(timeElapsed) {
-
+    //console.log(timeElapsed);
+    //console.log(this.hour, this.minute, this.second);
+    var tmp_seconds = (this.second + timeElapsed / 1000) % 60;
+    var tmp_minute = (this.minute + Math.floor((this.second + timeElapsed / 1000) / 60)) % 60;
+    var tmp_hour = (this.hour + Math.floor((this.minute + Math.floor((this.second + timeElapsed / 1000) / 60)) / 60)) % 12;
+    this.setTime(tmp_hour, tmp_minute, tmp_seconds);
   }
 };
