@@ -127,7 +127,7 @@ class LightingScene extends CGFscene
 
 	initCameras()
 	{
-		this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(7.5, 7.5, 7.5), vec3.fromValues(0, 0, 0));
+		this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 20, 20), vec3.fromValues(13, 4, 6));
 	};
 
 	initLights()
@@ -223,7 +223,7 @@ class LightingScene extends CGFscene
 		//this.lamp.display();
 		//this.boardA.display();
 
-		/*
+
 		// Floor
 		this.pushMatrix();
 		this.translate(7.5, 0, 7.5);
@@ -304,9 +304,12 @@ class LightingScene extends CGFscene
 		this.clock.display();
 		this.popMatrix();
 
-		*/
+
 		 //airplane
 		 this.pushMatrix();
+
+		 this.translate(14,3.68,7);
+		 this.scale(0.8,0.8,0.8);
 		 this.airplane.display();
 		 this.popMatrix();
 		// ---- END Scene drawing section
