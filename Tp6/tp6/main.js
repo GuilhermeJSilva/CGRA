@@ -17,6 +17,7 @@ serialInclude([
 	'MyClockHand.js',
 	'MyAirplane.js',
 	'MovingAirplane.js',
+	'BezierTrans.js',
 
 	main=function() {
 		var app = new CGFapplication(document.body);
