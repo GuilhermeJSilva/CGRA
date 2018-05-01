@@ -49,8 +49,8 @@ class BezierRot extends CGFobject {
         this.normals.push(this.initial_vertices[i + 1] * Math.cos(step * this.angle_step) - this.initial_vertices[i + 2] * Math.sin(step * this.angle_step));
         this.normals.push(this.initial_vertices[i + 1] * Math.sin(step * this.angle_step) + this.initial_vertices[i + 2] * Math.cos(step * this.angle_step));
 
-        this.texCoords.push(i * 1/this.initial_vertices.length);
         this.texCoords.push(step * this.tex_reps/this.angle_steps);
+        this.texCoords.push(i * 1/this.initial_vertices.length);
       }
     }
 
@@ -64,8 +64,8 @@ class BezierRot extends CGFobject {
         this.normals.push(-this.initial_vertices[i + 1] * Math.cos(step * this.angle_step) + this.initial_vertices[i + 2] * Math.sin(step * this.angle_step));
         this.normals.push(-this.initial_vertices[i + 1] * Math.sin(step * this.angle_step) - this.initial_vertices[i + 2] * Math.cos(step * this.angle_step));
 
-        this.texCoords.push(i * 1/this.initial_vertices.length);
         this.texCoords.push(step * this.tex_reps/this.angle_steps);
+        this.texCoords.push(i * 1/this.initial_vertices.length);
       }
     }
 

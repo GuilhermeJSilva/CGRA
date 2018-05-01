@@ -25,6 +25,7 @@ class BezierTrans extends CGFobject {
     this.normals = new Array();
     this.texCoords = new Array();
 
+    this.tex_reps = 1;
     this.setCurve();
     this.initBuffers();
   };
@@ -35,6 +36,9 @@ class BezierTrans extends CGFobject {
         this.vertices.push(this.initial_vertices[i] + slice * this.trans_vector[0]);
         this.vertices.push(this.initial_vertices[i + 1] + slice * this.trans_vector[1]);
         this.vertices.push(this.initial_vertices[i + 2] + slice * this.trans_vector[2]);
+
+        this.texCoords.push(slice * this.tex_reps/ this.slices);
+        this.texCoords.push(i * 1/this.initial_vertices.length);
       }
     }
 
