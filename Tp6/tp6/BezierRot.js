@@ -4,12 +4,19 @@
  * @constructor
  */
 
-class BezierTrans extends CGFobject {
-  constructor(scene, slices, trans_vector, p1, p2, p3, p4, step) {
+class BezierRot extends CGFobject {
+  constructor(scene, angle_steps, angle_step, p1, p2, p3, p4, step) {
+    /*
+    The initial curve is rotated in relation to the x axis.
+    The curve must be in the x, y plane
+     */
+
+    //TODO - Ask the teacher if an object can oclude himself
+    // when calculating the light.
     super(scene);
 
-    this.slices = slices;
-    this.trans_vector = trans_vector;
+    this.angle_steps = angle_steps;
+    this.angle_step = angle_step;
 
     this.p1 = p1;
     this.p2 = p2;
@@ -30,21 +37,19 @@ class BezierTrans extends CGFobject {
   };
 
   initVIN() {
-    for (var slice = 0; slice < this.slices; slice++) {
+    for (var step = 0; step <= this.angle_steps; step++) {
       for (var i = 0; i < this.initial_vertices.length; i += 3) {
-        this.vertices.push(this.initial_vertices[i] + slice * this.trans_vector[0]);
-        this.vertices.push(this.initial_vertices[i + 1] + slice * this.trans_vector[1]);
-        this.vertices.push(this.initial_vertices[i + 2] + slice * this.trans_vector[2]);
+        this.vertices.push(this.initial_vertices[i]);
+        this.vertices.push(this.initial_vertices[i + 1] * Math.cos(step * this.angle_step) - this.initial_vertices[i + 2] * Math.sin(step * this.angle_step));
+        this.vertices.push(this.initial_vertices[i + 1] * Math.sin(step * this.angle_step) + this.initial_vertices[i + 2] * Math.cos(step * this.angle_step));
+
+        this.normals.push(this.initial_vertices[i]);
+        this.normals.push(this.initial_vertices[i + 1] * Math.cos(step * this.angle_step) - this.initial_vertices[i + 2] * Math.sin(step * this.angle_step));
+        this.normals.push(this.initial_vertices[i + 1] * Math.sin(step * this.angle_step) + this.initial_vertices[i + 2] * Math.cos(step * this.angle_step));
+
       }
     }
-
-    for (var i = 0; i < this.slices; i++) {
-      for (var j = 0; j < this.initial_normals.length; j++) {
-        this.normals.push(this.initial_normals[j]);
-      }
-
-    }
-
+    console.log(this.normals);
     for (var i = 0; i < this.vertices.length / 3 - this.initial_vertices.length / 3; i++) {
       if ((i) % (this.initial_vertices.length / 3) != (this.initial_vertices.length / 3 - 1)) {
         this.indices.push(i, i + 1, i + this.initial_vertices.length / 3);
@@ -60,11 +65,9 @@ class BezierTrans extends CGFobject {
     for (var t = 0; t <= 1; t += this.step) {
       //console.log(t);
       this.initial_vertices.push(this.getPx(t), this.getPy(t), this.getPz(t));
-      this.initial_normals.push((- this.trans_vector[1] * this.getDzDt(t) + this.trans_vector[2] * this.getDyDt(t)),
-         (this.trans_vector[0] * this.getDzDt(t) - this.trans_vector[2] * this.getDxDt(t)),
-         (- this.trans_vector[1] * this.getDxDt(t) + this.trans_vector[0] * this.getDyDt(t)))
+      this.initial_normals.push(this.getDxDt(t), this.getDyDt(t), this.getDzDt(t));
+
     }
-    console.log(this.initial_normals);
   };
 
   getPx(t) {
@@ -108,7 +111,7 @@ class BezierTrans extends CGFobject {
       3 * Math.pow(t, 2) * this.p3[2] + 6 * (1 - t) * t * this.p3[2] +
       3 * Math.pow(t, 2) * this.p4[2];
   };
-
+  
   initBuffers() {
     this.initVIN();
     this.primitiveType = this.scene.gl.TRIANGLES;

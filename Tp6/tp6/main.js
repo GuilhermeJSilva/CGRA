@@ -18,6 +18,7 @@ serialInclude([
 	'MyAirplane.js',
 	'MovingAirplane.js',
 	'BezierTrans.js',
+	'BezierRot.js',
 
 	main=function() {
 		var app = new CGFapplication(document.body);
