@@ -5,7 +5,7 @@
  */
 
 class BezierRot extends CGFobject {
-  constructor(scene, angle_steps, angle_step, p1, p2, p3, p4, step) {
+  constructor(scene, angle_steps, angle_step, p1, p2, p3, p4, step, tex_reps) {
     /*
     The initial curve is rotated in relation to the x axis.
     The curve must be in the x, y plane
@@ -32,6 +32,8 @@ class BezierRot extends CGFobject {
     this.normals = new Array();
     this.texCoords = new Array();
 
+    this.tex_reps = tex_reps;
+
     this.setCurve();
     this.initBuffers();
   };
@@ -47,9 +49,26 @@ class BezierRot extends CGFobject {
         this.normals.push(this.initial_vertices[i + 1] * Math.cos(step * this.angle_step) - this.initial_vertices[i + 2] * Math.sin(step * this.angle_step));
         this.normals.push(this.initial_vertices[i + 1] * Math.sin(step * this.angle_step) + this.initial_vertices[i + 2] * Math.cos(step * this.angle_step));
 
+        this.texCoords.push(i * 1/this.initial_vertices.length);
+        this.texCoords.push(step * this.tex_reps/this.angle_steps);
       }
     }
-    console.log(this.normals);
+
+    for (var step = 0; step <= this.angle_steps; step++) {
+      for (var i = 0; i < this.initial_vertices.length; i += 3) {
+        this.vertices.push(this.initial_vertices[i]);
+        this.vertices.push(this.initial_vertices[i + 1] * Math.cos(step * this.angle_step) - this.initial_vertices[i + 2] * Math.sin(step * this.angle_step));
+        this.vertices.push(this.initial_vertices[i + 1] * Math.sin(step * this.angle_step) + this.initial_vertices[i + 2] * Math.cos(step * this.angle_step));
+
+        this.normals.push(-this.initial_vertices[i]);
+        this.normals.push(-this.initial_vertices[i + 1] * Math.cos(step * this.angle_step) + this.initial_vertices[i + 2] * Math.sin(step * this.angle_step));
+        this.normals.push(-this.initial_vertices[i + 1] * Math.sin(step * this.angle_step) - this.initial_vertices[i + 2] * Math.cos(step * this.angle_step));
+
+        this.texCoords.push(i * 1/this.initial_vertices.length);
+        this.texCoords.push(step * this.tex_reps/this.angle_steps);
+      }
+    }
+
     for (var i = 0; i < this.vertices.length / 3 - this.initial_vertices.length / 3; i++) {
       if ((i) % (this.initial_vertices.length / 3) != (this.initial_vertices.length / 3 - 1)) {
         this.indices.push(i, i + 1, i + this.initial_vertices.length / 3);
@@ -111,7 +130,7 @@ class BezierRot extends CGFobject {
       3 * Math.pow(t, 2) * this.p3[2] + 6 * (1 - t) * t * this.p3[2] +
       3 * Math.pow(t, 2) * this.p4[2];
   };
-  
+
   initBuffers() {
     this.initVIN();
     this.primitiveType = this.scene.gl.TRIANGLES;
