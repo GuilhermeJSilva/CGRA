@@ -89,6 +89,11 @@ class LightingScene extends CGFscene {
     this.blueMetalAppearance.loadTexture('../resources/images/blue_metal.png');
 
     this.defaultAppearance = new CGFappearance(this);
+
+    this.shadowAppearance = new CGFappearance(this);
+    this.shadowAppearance.setSpecular(0, 0, 0, 1);
+    this.shadowAppearance.setDiffuse(0, 0, 0, 1);
+    this.shadowAppearance.setAmbient(0.1, 0.1, 0.1, 1);
   };
 
   initCameras() {
