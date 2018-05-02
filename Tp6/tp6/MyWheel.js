@@ -18,6 +18,9 @@ class MyWheel extends CGFobject {
     this.turningAngle = 0;
 
   };
+  getTurningAngle() {
+    return this.turningAngle;
+  }
 
   setTurningAngle(angle) {
     this.turningAngle = angle;
@@ -44,8 +47,8 @@ class MyWheel extends CGFobject {
   display() {
     let rimSize = 0.7;
 
-    console.log(this.turningAngle);
-    console.log(this.forwaAngle);
+    //console.log(this.turningAngle);
+    //console.log(this.forwaAngle);
     this.scene.rotate(this.turningAngle, 0, 1, 0);
     this.scene.rotate(this.forwardAngle, 0, 0, 1);
     this.scene.pushMatrix();

@@ -68,7 +68,6 @@ class BezierTrans extends CGFobject {
          (this.trans_vector[0] * this.getDzDt(t) - this.trans_vector[2] * this.getDxDt(t)),
          (- this.trans_vector[1] * this.getDxDt(t) + this.trans_vector[0] * this.getDyDt(t)))
     }
-    console.log(this.initial_normals);
   };
 
   getPx(t) {

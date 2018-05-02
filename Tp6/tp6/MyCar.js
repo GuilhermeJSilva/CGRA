@@ -20,7 +20,12 @@ class MyCar extends CGFobject {
     this.circle = new MyCircle(this.scene, 18);
 
 
-    this.count = 0;
+    this.moved = new Array();
+    for (var i = 0; i < 3; i++) {
+      this.moved.push(0);
+    }
+    this.angle = 0;
+    this.old_angle = 0;
   };
 
   setTurningAngle(angle) {
@@ -35,25 +40,32 @@ class MyCar extends CGFobject {
   incForwardAngle(angle) {
     this.frontWheel.incForwardAngle(angle);
     this.backWheel.incForwardAngle(angle);
+    let rigth_angle = this.frontWheel.getTurningAngle() + Math.PI/2;
+    this.moved[0] += angle * 0.35 * (- Math.cos(rigth_angle));
+    this.moved[2] += angle * 0.35 * Math.sin(rigth_angle);
   }
 
   incTurningAngle(angle) {
     this.frontWheel.incTurningAngle(angle);
-
   }
   display() {
+
     let wheelThickness = 0.3;
     let wheelSpeed = 0.5;
+    /*
     this.count++;
-    console.log(this.count);
+    //console.log(this.count);
     if (this.count < 500) {
       this.incForwardAngle(0.05);
       this.incTurningAngle(-0.002);
     } else {
       this.incForwardAngle(-0.05);
       this.incTurningAngle(0.002);
-    }
+    }*/
     //Front Left Wheel
+    this.scene.pushMatrix();
+    this.scene.translate(this.moved[0],this.moved[1],this.moved[2]);
+    this.scene.rotate(this.angle,0,1,0);
     this.scene.pushMatrix();
 
     this.scene.translate(0.9, 0.35, 1.35);
@@ -523,6 +535,7 @@ class MyCar extends CGFobject {
     this.scene.rotate(Math.PI / 2, 1, 0, 0);
     this.quad.display();
 
+    this.scene.popMatrix();
     this.scene.popMatrix();
 
   }

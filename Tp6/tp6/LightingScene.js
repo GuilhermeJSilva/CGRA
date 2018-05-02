@@ -20,17 +20,37 @@ class LightingScene extends CGFscene {
 
     this.initLights();
 
-    this.gl.clearColor(0.0, 0.0, 0.0, 1.0);
+    this.gl.clearColor(173/255, 216/255, 230/255, 1.0);
     this.gl.clearDepth(100.0);
     this.gl.enable(this.gl.DEPTH_TEST);
     this.gl.enable(this.gl.CULL_FACE);
     this.gl.depthFunc(this.gl.LEQUAL);
 
+    this.light0 = true;
+    this.light1 = false;
+    this.light2 = false;
+    this.light3 = false;
+    this.light4 = false;
+
+    this.dis_axis = true;
+    this.speed = 3;
+
     this.axis = new CGFaxis(this);
+    this.altimetry = [
+      [2.0, 3.0, 2.0, 4.0, 2.5, 2.4, 2.3, 1.3],
+      [2.0, 3.0, 2.0, 4.0, 7.5, 6.4, 4.3, 1.3],
+      [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+      [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+      [0.0, 0.0, 2.0, 4.0, 2.5, 2.4, 0.0, 0.0],
+      [0.0, 0.0, 2.0, 4.0, 3.5, 2.4, 0.0, 0.0],
+      [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+      [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+      [2.0, 3.0, 2.0, 1.0, 2.5, 2.4, 2.3, 1.3]
+    ];
 
     // Scene elements
     this.car = new MyCar(this);
-    this.floor = new Plane(this);
+    this.floor = new MyTerrain(this, 8, this.altimetry);
 
     // Scene Appearances
 
@@ -113,11 +133,13 @@ class LightingScene extends CGFscene {
     this.lights[0].setAmbient(0, 0, 0, 1);
     this.lights[0].setDiffuse(1.0, 1.0, 1.0, 1.0);
     this.lights[0].setSpecular(1, 1, 0, 1);
-    this.lights[0].enable();
+    if (this.light0)
+      this.lights[0].enable();
 
     this.lights[1].setAmbient(0, 0, 0, 1);
     this.lights[1].setDiffuse(1.0, 1.0, 1.0, 1.0);
-    this.lights[1].enable();
+    if (this.light1)
+      this.lights[1].enable();
 
     this.lights[2].setAmbient(0, 0, 0, 1);
     this.lights[2].setDiffuse(1.0, 1.0, 1.0, 1.0);
@@ -125,7 +147,8 @@ class LightingScene extends CGFscene {
     this.lights[2].setConstantAttenuation(0);
     this.lights[2].setLinearAttenuation(1);
     this.lights[2].setQuadraticAttenuation(0);
-    this.lights[2].enable();
+    if (this.light2)
+      this.lights[2].enable();
 
     this.lights[3].setAmbient(0, 0, 0, 1);
     this.lights[3].setDiffuse(1.0, 1.0, 1.0, 1.0);
@@ -133,7 +156,8 @@ class LightingScene extends CGFscene {
     this.lights[3].setConstantAttenuation(0);
     this.lights[3].setLinearAttenuation(0);
     this.lights[3].setQuadraticAttenuation(0.2);
-    //	this.lights[3].enable();
+    if (this.light3)
+      this.lights[3].enable();
 
     this.lights[4].setPosition(0, 0, 5);
     this.lights[4].setVisible(true);
@@ -143,7 +167,8 @@ class LightingScene extends CGFscene {
     //this.lights[4].setConstantAttenuation(0);
     //this.lights[4].setLinearAttenuation(1);
     this.lights[4].setQuadraticAttenuation(0.2);
-    this.lights[4].enable();
+    if (this.light4)
+      this.lights[4].enable();
 
     this.oldtime = 0;
     this.setUpdatePeriod(100);
@@ -173,8 +198,22 @@ class LightingScene extends CGFscene {
     this.updateLights();
 
     // Draw axis
-    this.axis.display();
+    if (this.dis_axis)
+      this.axis.display();
 
+    for (var i = 0; i < this.lights.length; i++) {
+      this.lights[i].disable();
+    }
+    if (this.light4)
+      this.lights[4].enable();
+    if (this.light3)
+      this.lights[4].enable();
+    if (this.light2)
+      this.lights[2].enable();
+    if (this.light1)
+      this.lights[1].enable();
+    if (this.light0)
+      this.lights[0].enable();
     // ---- END Background, camera and axis setup
 
     // ---- BEGIN Scene drawing section
@@ -189,6 +228,7 @@ class LightingScene extends CGFscene {
     this.popMatrix();
     // ---- END Scene drawing section
 
+    this.checkKeys();
   };
 
   update(currentTime) {
@@ -200,4 +240,31 @@ class LightingScene extends CGFscene {
 
     this.oldtime = currentTime;
   }
+
+  checkKeys() {
+    var text = "Keys pressed: ";
+    var keysPressed = false;
+    if (this.gui.isKeyPressed("KeyW")) {
+      this.car.incForwardAngle(0.03);
+      keysPressed = true;
+    }
+    if (this.gui.isKeyPressed("KeyS")) {
+      this.car.incForwardAngle(-0.03);
+      keysPressed = true;
+    }
+    if (this.gui.isKeyPressed("KeyA")) {
+      this.car.incTurningAngle(0.03);
+      keysPressed = true;
+    }
+    if (this.gui.isKeyPressed("KeyD")) {
+      this.car.incTurningAngle(-0.03);
+      keysPressed = true;
+    }
+    if (keysPressed)
+      console.log(text);
+  }
+
+  toggleAxis() {
+    this.dis_axis = !this.dis_axis;
+  };
 };
