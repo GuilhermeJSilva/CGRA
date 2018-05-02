@@ -14,6 +14,7 @@ class MyLamp extends CGFobject {
     this.vertices = new Array();
     this.indices = new Array();
     this.normals = new Array();
+    this.texCoords = new Array();
     this.initBuffers();
   };
 
@@ -31,7 +32,8 @@ class MyLamp extends CGFobject {
         this.normals.push(Math.sin(stack * alpha));
         this.normals.push(Math.cos(stack * alpha) * Math.sin(slice * theta));
 
-
+        this.texCoords.push(0.5 - Math.cos(stack * alpha) * Math.sin(slice * theta) / 2);
+        this.texCoords.push(0.5 - Math.cos(stack * alpha) * Math.cos(slice * theta) / 2);
       }
     }
 
@@ -45,7 +47,6 @@ class MyLamp extends CGFobject {
       this.indices.push(i);
 
     }
-
   };
 
   initBuffers() {
