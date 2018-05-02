@@ -1,8 +1,8 @@
 /**
-* MyObject
-* @param gl {WebGLRenderingContext}
-* @constructor
-*/
+ * MyObject
+ * @param gl {WebGLRenderingContext}
+ * @constructor
+ */
 
 class MyCilinder extends CGFobject {
   constructor(scene, slices, stacks) {
@@ -28,7 +28,7 @@ class MyCilinder extends CGFobject {
 
         this.vertices.push(Math.cos(slice * this.delta));
         this.vertices.push(Math.sin(slice * this.delta));
-        this.vertices.push(stack * alt);
+        this.vertices.push(stack * alt - 0.5);
 
         this.normals.push(Math.cos(slice * this.delta));
         this.normals.push(Math.sin(slice * this.delta));
@@ -55,10 +55,10 @@ class MyCilinder extends CGFobject {
     for (var i = 0; i <= this.stacks; i++) {
       for (var j = 0; j < this.slices; j++) {
         this.texCoords.push(s, t);
-        s += 1/this.slices;
+        s += 1 / this.slices;
       }
       s = 0;
-      t += 1/this.stacks;
+      t += 1 / this.stacks;
     }
 
 
