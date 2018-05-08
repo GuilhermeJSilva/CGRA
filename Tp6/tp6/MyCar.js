@@ -68,43 +68,38 @@ class MyCar extends CGFobject {
 
   updatePosition(elapsedTime) {
     this.normalizeVelocity();
-    /*
-    let air_resistance = [this.velocity[0] * Math.abs(this.velocity[0]) * 10, this.velocity[1] * Math.abs(this.velocity[1]) * 10];
-    if (Math.sin(this.frontWheel.getTurningAngle() + this.angle) < 0)
-      this.accelaration[0] = (this.motorForce + air_resistance[0]) * Math.sin(this.frontWheel.getTurningAngle() + this.angle);
-    else
-      this.accelaration[0] = (this.motorForce - air_resistance[0]) * Math.sin(this.frontWheel.getTurningAngle() + this.angle);
 
-    if (Math.cos(this.frontWheel.getTurningAngle() + this.angle) < 0)
-      this.accelaration[1] = (this.motorForce + air_resistance[1]) * Math.cos(this.frontWheel.getTurningAngle() + this.angle);
-    else
-      this.accelaration[1] = (this.motorForce - air_resistance[1]) * Math.cos(this.frontWheel.getTurningAngle() + this.angle);
+    let air_resistance = [-this.velocity[0] * Math.abs(this.velocity[0]) * 10, -this.velocity[1] * Math.abs(this.velocity[1]) * 10];
 
+    this.accelaration[0] = (this.motorForce) * Math.sin(this.frontWheel.getTurningAngle() + this.angle) + air_resistance[0];
+
+    this.accelaration[1] = (this.motorForce) * Math.cos(this.frontWheel.getTurningAngle() + this.angle) + air_resistance[1];
 
 
     this.velocity[0] += this.accelaration[0] * elapsedTime;
     this.velocity[1] += this.accelaration[1] * elapsedTime;
-    */
-    this.velocity[0] = this.motorForce * Math.sin(this.frontWheel.getTurningAngle() + this.angle);
-    this.velocity[1] = this.motorForce * Math.cos(this.frontWheel.getTurningAngle() + this.angle);
 
     this.moved[0] += this.velocity[0] * elapsedTime;
     this.moved[1] += this.velocity[1] * elapsedTime;
 
     let velocity = Math.sqrt(Math.pow(this.velocity[1], 2) + Math.pow(this.velocity[0], 2));
-    this.incForwardAngle(velocity * elapsedTime / this.wheelRadius);
+    if (this.velocity[1] != 0) {
+      if (this.angle >= Math.PI / 2 && this.angle <= 3 * Math.PI / 2)
+        this.incForwardAngle(-this.velocity[1] / Math.abs(this.velocity[1]) * velocity * elapsedTime / this.wheelRadius);
+      else
+        this.incForwardAngle(this.velocity[1] / Math.abs(this.velocity[1]) * velocity * elapsedTime / this.wheelRadius);
+    }
+
     if (velocity != 0 && this.motorForce != 0)
       this.angularVelocity = this.motorForce / Math.abs(this.motorForce) * 2 * this.deltaZ * velocity * Math.sin(this.frontWheel.getTurningAngle()) / 10;
     else {
       this.angularVelocity = 0;
     }
     this.angle += this.angularVelocity * elapsedTime;
-
-
   };
 
   normalizeVelocity() {
-    let velocityError = 0.1;
+    let velocityError = 0.5;
     if (this.velocity[0] < velocityError && this.velocity[0] > 0)
       this.velocity[0] = 0;
     if (this.velocity[1] < velocityError && this.velocity[1] > 0)
