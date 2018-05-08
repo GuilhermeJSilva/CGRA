@@ -20,7 +20,7 @@ class LightingScene extends CGFscene {
 
     this.initLights();
 
-    this.gl.clearColor(173/255, 216/255, 230/255, 1.0);
+    this.gl.clearColor(173 / 255, 216 / 255, 230 / 255, 1.0);
     this.gl.clearDepth(100.0);
     this.gl.enable(this.gl.DEPTH_TEST);
     this.gl.enable(this.gl.CULL_FACE);
@@ -226,10 +226,9 @@ class LightingScene extends CGFscene {
     this.car.display();
 
     this.pushMatrix();
-    this.rotate(-Math.PI / 2, 1, 0, 0);
-    this.scale(50, 50, 1);
-
-    this.floor.display();
+    //this.scale(50, 50, 1);
+    //this.rotate(-Math.PI / 2, 1, 0, 0);
+    //this.floor.display();
     this.popMatrix();
     // ---- END Scene drawing section
 
@@ -242,31 +241,25 @@ class LightingScene extends CGFscene {
       return;
     }
     var elapsedTime = currentTime - this.oldtime;
-
+    this.car.updatePosition(elapsedTime/1000);
     this.oldtime = currentTime;
   }
 
   checkKeys() {
-    var text = "Keys pressed: ";
-    var keysPressed = false;
+
     if (this.gui.isKeyPressed("KeyW")) {
-      this.car.incForwardAngle(0.03);
-      keysPressed = true;
+      this.car.setMotorForce(2);
+    } else if (this.gui.isKeyPressed("KeyS")) {
+      this.car.setMotorForce(-2);
+    } else {
+      this.car.setMotorForce(0);
     }
-    if (this.gui.isKeyPressed("KeyS")) {
-      this.car.incForwardAngle(-0.03);
-      keysPressed = true;
-    }
+
     if (this.gui.isKeyPressed("KeyA")) {
       this.car.incTurningAngle(0.03);
-      keysPressed = true;
-    }
-    if (this.gui.isKeyPressed("KeyD")) {
+    } else if (this.gui.isKeyPressed("KeyD")) {
       this.car.incTurningAngle(-0.03);
-      keysPressed = true;
     }
-    if (keysPressed)
-      console.log(text);
   }
 
   toggleAxis() {

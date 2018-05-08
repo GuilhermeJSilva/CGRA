@@ -37,34 +37,85 @@ class MyCar extends CGFobject {
     //this.tireGuardFrontSide = new BezierTrans(this.scene, 20, [0, 0.5 / 20, 0], [0.999, 0.35 + incY, 2.1 + incZ], [0.999, 0.85 + incY, 1.8 + incZ], [0.999, 0.85 + incY, 1.4], [0.999, 0.35 + incY, 1.1 + incZ], 0.01);
 
     //scene, slices, trans_vector, p1, p2, p3, p4, step)
-    this.moved = new Array();
-    for (var i = 0; i < 3; i++) {
-      this.moved.push(0);
-    }
+
+
+    //Physics variables
     this.angle = 0;
-    this.old_angle = 0;
+    this.angularVelocity = 0;
+
+    this.moved = [0, 0];
+    this.velocity = [0, 0];
+    this.accelaration = [0, 0];
+
+    this.motorForce = 0;
+    this.deltaZ = 2.5;
+    this.wheelRadius = 0.35;
   };
 
-  setTurningAngle(angle) {
-    this.frontWheel.setTurningAngle(angle);
-  }
-
-  setForwardAngle(angle) {
-    this.frontWheel.setForwardAngle(angle);
-    this.backWheel.setForwardAngle(angle);
-  }
 
   incForwardAngle(angle) {
     this.frontWheel.incForwardAngle(angle);
     this.backWheel.incForwardAngle(angle);
-    let rigth_angle = this.frontWheel.getTurningAngle() + Math.PI/2;
-    this.moved[0] += angle * 0.35 * (- Math.cos(rigth_angle));
-    this.moved[2] += angle * 0.35 * Math.sin(rigth_angle);
   }
 
   incTurningAngle(angle) {
     this.frontWheel.incTurningAngle(angle);
   }
+
+  setMotorForce(motorForce) {
+    this.motorForce = motorForce;
+  }
+
+  updatePosition(elapsedTime) {
+    this.normalizeVelocity();
+    /*
+    let air_resistance = [this.velocity[0] * Math.abs(this.velocity[0]) * 10, this.velocity[1] * Math.abs(this.velocity[1]) * 10];
+    if (Math.sin(this.frontWheel.getTurningAngle() + this.angle) < 0)
+      this.accelaration[0] = (this.motorForce + air_resistance[0]) * Math.sin(this.frontWheel.getTurningAngle() + this.angle);
+    else
+      this.accelaration[0] = (this.motorForce - air_resistance[0]) * Math.sin(this.frontWheel.getTurningAngle() + this.angle);
+
+    if (Math.cos(this.frontWheel.getTurningAngle() + this.angle) < 0)
+      this.accelaration[1] = (this.motorForce + air_resistance[1]) * Math.cos(this.frontWheel.getTurningAngle() + this.angle);
+    else
+      this.accelaration[1] = (this.motorForce - air_resistance[1]) * Math.cos(this.frontWheel.getTurningAngle() + this.angle);
+
+
+
+    this.velocity[0] += this.accelaration[0] * elapsedTime;
+    this.velocity[1] += this.accelaration[1] * elapsedTime;
+    */
+    this.velocity[0] = this.motorForce * Math.sin(this.frontWheel.getTurningAngle() + this.angle);
+    this.velocity[1] = this.motorForce * Math.cos(this.frontWheel.getTurningAngle() + this.angle);
+
+    this.moved[0] += this.velocity[0] * elapsedTime;
+    this.moved[1] += this.velocity[1] * elapsedTime;
+
+    let velocity = Math.sqrt(Math.pow(this.velocity[1], 2) + Math.pow(this.velocity[0], 2));
+    this.incForwardAngle(velocity * elapsedTime / this.wheelRadius);
+    if (velocity != 0 && this.motorForce != 0)
+      this.angularVelocity = this.motorForce / Math.abs(this.motorForce) * 2 * this.deltaZ * velocity * Math.sin(this.frontWheel.getTurningAngle()) / 10;
+    else {
+      this.angularVelocity = 0;
+    }
+    this.angle += this.angularVelocity * elapsedTime;
+
+
+  };
+
+  normalizeVelocity() {
+    let velocityError = 0.1;
+    if (this.velocity[0] < velocityError && this.velocity[0] > 0)
+      this.velocity[0] = 0;
+    if (this.velocity[1] < velocityError && this.velocity[1] > 0)
+      this.velocity[1] = 0;
+
+    if (this.velocity[0] > -velocityError && this.velocity[0] < 0)
+      this.velocity[0] = 0;
+    if (this.velocity[1] > -velocityError && this.velocity[1] < 0)
+      this.velocity[1] = 0;
+  };
+
   display() {
 
     let wheelThickness = 0.3;
@@ -81,8 +132,8 @@ class MyCar extends CGFobject {
     }*/
     //Front Left Wheel
     this.scene.pushMatrix();
-    this.scene.translate(this.moved[0],this.moved[1],this.moved[2]);
-    this.scene.rotate(this.angle,0,1,0);
+    this.scene.translate(this.moved[0], 0, this.moved[1]);
+    this.scene.rotate(this.angle, 0, 1, 0);
     this.scene.pushMatrix();
 
     this.scene.translate(0.8, 0.35, 1.65);
