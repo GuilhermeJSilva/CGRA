@@ -37,8 +37,8 @@ class BezierTrans extends CGFobject {
         this.vertices.push(this.initial_vertices[i + 1] + slice * this.trans_vector[1]);
         this.vertices.push(this.initial_vertices[i + 2] + slice * this.trans_vector[2]);
 
-        this.texCoords.push(slice * this.tex_reps/ this.slices);
-        this.texCoords.push(i * 1/this.initial_vertices.length);
+        this.texCoords.push(slice * this.tex_reps / this.slices);
+        this.texCoords.push(i * 1 / this.initial_vertices.length);
       }
     }
 
@@ -58,15 +58,45 @@ class BezierTrans extends CGFobject {
       }
     }
 
+    var normal_size = this.normals.length;
+    var vertices_size = this.vertices.length;
+    var indices_size = this.indices.length;
 
+    for (var slice = 0; slice < this.slices; slice++) {
+      for (var i = 0; i < this.initial_vertices.length; i += 3) {
+        this.vertices.push(this.initial_vertices[i] + slice * this.trans_vector[0]);
+        this.vertices.push(this.initial_vertices[i + 1] + slice * this.trans_vector[1]);
+        this.vertices.push(this.initial_vertices[i + 2] + slice * this.trans_vector[2]);
+
+        this.texCoords.push(slice * this.tex_reps / this.slices);
+        this.texCoords.push(i * 1 / this.initial_vertices.length);
+      }
+    }
+
+    for (var i = 0; i < this.slices; i++) {
+      for (var j = 0; j < this.initial_normals.length; j++) {
+        this.normals.push(-this.initial_normals[j][0], -this.initial_normals[j][1], this.initial_normals[j][2]);
+      }
+    }
+
+    for (var i = vertices_size/3; i < this.vertices.length / 3 - this.initial_vertices.length / 3; i++) {
+      if ((i) % (this.initial_vertices.length / 3) != (this.initial_vertices.length / 3 - 1)) {
+        this.indices.push(i+ 1, i, i + this.initial_vertices.length / 3);
+      }
+      if ((i) % (this.initial_vertices.length / 3) != 0) {
+        this.indices.push(i + this.initial_vertices.length / 3, i, i - 1 + this.initial_vertices.length / 3);
+      }
+    }
+    console.log(indices_size);
+    console.log(this.indices.length);
   }
   setCurve() {
     for (var t = 0; t <= 1; t += this.step) {
       //console.log(t);
       this.initial_vertices.push(this.getPx(t), this.getPy(t), this.getPz(t));
-      this.initial_normals.push((- this.trans_vector[1] * this.getDzDt(t) + this.trans_vector[2] * this.getDyDt(t)),
-         (this.trans_vector[0] * this.getDzDt(t) - this.trans_vector[2] * this.getDxDt(t)),
-         (- this.trans_vector[1] * this.getDxDt(t) + this.trans_vector[0] * this.getDyDt(t)))
+      this.initial_normals.push((-this.trans_vector[1] * this.getDzDt(t) + this.trans_vector[2] * this.getDyDt(t)),
+        (this.trans_vector[0] * this.getDzDt(t) - this.trans_vector[2] * this.getDxDt(t)),
+        (-this.trans_vector[1] * this.getDxDt(t) + this.trans_vector[0] * this.getDyDt(t)))
     }
   };
 
