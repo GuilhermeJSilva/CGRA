@@ -226,9 +226,7 @@ class LightingScene extends CGFscene {
     this.car.display();
 
     this.pushMatrix();
-    //this.scale(50, 50, 1);
-    //this.rotate(-Math.PI / 2, 1, 0, 0);
-    //this.floor.display();
+    this.floor.display();
     this.popMatrix();
     // ---- END Scene drawing section
 
