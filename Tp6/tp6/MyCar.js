@@ -50,8 +50,13 @@ class MyCar extends CGFobject {
     this.motorForce = 0;
     this.deltaZ = 2.5;
     this.wheelRadius = 0.35;
+
+    this.turning = false;
   };
 
+  setTurning(turning) {
+    this.turning = turning;
+  }
 
   incForwardAngle(angle) {
     this.frontWheel.incForwardAngle(angle);
@@ -69,7 +74,7 @@ class MyCar extends CGFobject {
   updatePosition(elapsedTime) {
     this.normalizeVelocity();
 
-    let air_resistance = [-this.velocity[0] * Math.abs(this.velocity[0]) * 10, -this.velocity[1] * Math.abs(this.velocity[1]) * 10];
+    let air_resistance = [-this.velocity[0] * Math.abs(this.velocity[0]) * 8, -this.velocity[1] * Math.abs(this.velocity[1]) * 8];
 
     this.accelaration[0] = (this.motorForce) * Math.sin(this.frontWheel.getTurningAngle() + this.angle) + air_resistance[0];
 
@@ -96,6 +101,17 @@ class MyCar extends CGFobject {
       this.angularVelocity = 0;
     }
     this.angle += this.angularVelocity * elapsedTime;
+    this.updateTurningAngle(elapsedTime);
+
+  };
+
+  updateTurningAngle(elapsedTime) {
+    if (!this.turning) {
+      if (this.frontWheel.getTurningAngle() != 0)
+        this.incTurningAngle(-this.frontWheel.getTurningAngle() / Math.abs(this.frontWheel.getTurningAngle()) * 0.1);
+      if (Math.abs(this.frontWheel.getTurningAngle()) < 0.05)
+        this.incTurningAngle(-this.frontWheel.getTurningAngle());
+    }
   };
 
   normalizeVelocity() {
