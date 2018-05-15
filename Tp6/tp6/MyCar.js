@@ -38,8 +38,6 @@ class MyCar extends CGFobject {
 
     //scene, slices, trans_vector, p1, p2, p3, p4, step)
 
-    this.leftHeadlightPos = [0.75, 0.8, 2.5];
-    this.rightHeadlightPos = [-0.75, 0.8, 2.5];
     //Physics variables
     this.angle = 0;
     this.angularVelocity = 0;

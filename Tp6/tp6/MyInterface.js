@@ -42,7 +42,6 @@ class MyInterface extends CGFinterface {
     lights.add(this.scene, 'light2');
     lights.add(this.scene, 'light3');
     lights.add(this.scene, 'light4');
-    lights.add(this.scene, 'headlights');
     // add a slider
     // must be a numeric variable of the scene, initialized in scene.init e.g.
     // this.speed=3;
