@@ -18,7 +18,7 @@ class MyInterface extends CGFinterface {
     super.init(application);
     this.initKeys();
     // init GUI. For more information on the methods, check:
-    //  http://workshop.chromeexperiments.com/examples/gui
+    //  http: //workshop.chromeexperiments.com/examples/gui
 
     this.gui = new dat.GUI();
 
@@ -49,6 +49,8 @@ class MyInterface extends CGFinterface {
     // min and max values can be specified as parameters
 
     this.gui.add(this.scene, 'speed', -5, 5);
+
+    this.gui.add(this.scene, 'rimAppearancesCurrIndex', rimOptions);
 
     return true;
   };

@@ -1,0 +1,1 @@
+var rimOptions = { 'Vintage Rim': 0, 'New Rim': 1 };

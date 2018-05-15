@@ -52,10 +52,18 @@ class LightingScene extends CGFscene {
     this.car = new MyCar(this);
     this.floor = new MyTerrain(this, 8, this.altimetry);
 
+    this.rimAppearances = new Array();
+    this.rimAppearancesCurrIndex = 0;
+
     // Scene Appearances
 
-    this.rimAppearance = new CGFappearance(this);
-    this.rimAppearance.loadTexture('../resources/images/wheel.png');
+    this.vintageRimAppearance = new CGFappearance(this);
+    this.vintageRimAppearance.loadTexture('../resources/images/vintage_rim.png');
+
+    this.newRimAppearance = new CGFappearance(this);
+    this.newRimAppearance.loadTexture('../resources/images/wheel.png');
+
+    this.rimAppearances.push(this.vintageRimAppearance, this.newRimAppearance);
 
     this.tireAppearance = new CGFappearance(this);
     this.tireAppearance.loadTexture('../resources/images/rubber.jpg');
@@ -223,7 +231,10 @@ class LightingScene extends CGFscene {
 
     // ---- BEGIN Scene drawing section
 
+    this.pushMatrix();
+    this.translate(0, 5, 0);
     this.car.display();
+    this.popMatrix();
 
     this.pushMatrix();
     this.floor.display();
@@ -239,7 +250,7 @@ class LightingScene extends CGFscene {
       return;
     }
     var elapsedTime = currentTime - this.oldtime;
-    this.car.updatePosition(elapsedTime/1000);
+    this.car.updatePosition(elapsedTime / 1000);
     this.oldtime = currentTime;
   }
 
