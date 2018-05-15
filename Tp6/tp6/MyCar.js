@@ -96,6 +96,15 @@ class MyCar extends CGFobject {
       this.angularVelocity = 0;
     }
     this.angle += this.angularVelocity * elapsedTime;
+    this.updateTurningAngle(elapsedTime);
+
+  };
+
+  updateTurningAngle(elapsedTime) {
+    if (this.frontWheel.getTurningAngle() != 0)
+      this.incTurningAngle(-this.frontWheel.getTurningAngle() / Math.abs(this.frontWheel.getTurningAngle()) * 0.1);
+    if(Math.abs(this.frontWheel.getTurningAngle()) < 0.05)
+        this.incTurningAngle(-this.frontWheel.getTurningAngle());
   };
 
   normalizeVelocity() {
