@@ -233,7 +233,7 @@ class LightingScene extends CGFscene {
     // ---- END Background, camera and axis setup
 
     // ---- BEGIN Scene drawing section
-    
+
     this.pushMatrix();
     this.translate(0, 5, 0);
     this.car.display();
@@ -242,8 +242,9 @@ class LightingScene extends CGFscene {
     this.pushMatrix();
     this.floor.display();
     this.popMatrix();
-    
+
     this.pushMatrix();
+    this.defaultAppearance.apply();
     this.crane.display();
     this.popMatrix();
     // ---- END Scene drawing section
@@ -265,6 +266,9 @@ class LightingScene extends CGFscene {
 
     if (this.car.velocity[0] < 0)
       this.speed = this.speed * -1;
+
+    this.crane.firstArt.angle += elapsedTime / 500;
+    this.crane.secondArt.angle += elapsedTime / 200;
 
   }
 
