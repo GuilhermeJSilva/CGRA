@@ -267,8 +267,8 @@ class LightingScene extends CGFscene {
     if (this.car.velocity[0] < 0)
       this.speed = this.speed * -1;
 
-    this.crane.firstArt.angle += elapsedTime / 500;
-    this.crane.secondArt.angle += elapsedTime / 200;
+    //this.crane.firstArt.angle += elapsedTime / 500;
+    //this.crane.secondArt.angle += elapsedTime / 200;
 
   }
 
