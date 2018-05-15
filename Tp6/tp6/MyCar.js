@@ -103,7 +103,6 @@ class MyCar extends CGFobject {
     }
     this.angle += this.angularVelocity * elapsedTime;
     this.updateTurningAngle(elapsedTime);
-    console.log(this.velocity);
   };
 
   updateTurningAngle(elapsedTime) {

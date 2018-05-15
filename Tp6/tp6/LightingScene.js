@@ -57,6 +57,7 @@ class LightingScene extends CGFscene {
     this.car = new MyCar(this);
     this.initialCarPos = [0, 5, 0];
     this.floor = new MyTerrain(this, 8, this.altimetry);
+    this.crane = new MyCrane(this);
 
     this.rimAppearances = new Array();
     this.rimAppearancesCurrIndex = 0;
@@ -191,18 +192,19 @@ class LightingScene extends CGFscene {
 
     this.lights[5].setPosition(this.leftHeadlight);
     this.lights[5].setVisible(true);
-    this.lights[5].setAmbient(0.7, 0.7, 0.7, 1);
+    //this.lights[5].setAmbient(0.7, 0.7, 0.7, 1);
     this.lights[5].setDiffuse(1.0, 1.0, 1.0, 1.0);
     this.lights[5].setSpecular(1.0, 1.0, 0, 1.0);
     this.lights[5].setQuadraticAttenuation(0.2);
+    this.lights[5].setLinearAttenuation(1);
 
     this.lights[6].setPosition(this.rightHeadlight);
     this.lights[6].setVisible(true);
-    this.lights[6].setAmbient(0.7, 0.7, 0.7, 1);
+    //this.lights[6].setAmbient(0.7, 0.7, 0.7, 1);
     this.lights[6].setDiffuse(1.0, 1.0, 1.0, 1.0);
     this.lights[6].setSpecular(1.0, 1.0, 0, 1.0);
     this.lights[6].setQuadraticAttenuation(0.2);
-
+    this.lights[6].setLinearAttenuation(1);
     if (this.headlights) {
       console.log('headlights on');
       this.lights[5].enable();
@@ -261,7 +263,7 @@ class LightingScene extends CGFscene {
     // ---- END Background, camera and axis setup
 
     // ---- BEGIN Scene drawing section
-
+    /*
     this.pushMatrix();
     this.translate(0, 5, 0);
     this.car.display();
@@ -269,6 +271,10 @@ class LightingScene extends CGFscene {
 
     this.pushMatrix();
     this.floor.display();
+    this.popMatrix();
+    */
+    this.pushMatrix();
+    this.crane.display();
     this.popMatrix();
     // ---- END Scene drawing section
 
@@ -301,8 +307,8 @@ class LightingScene extends CGFscene {
     this.lights[5].setPosition(this.leftHeadlight);
     this.lights[6].setPosition(this.rightHeadlight);
 
-    console.log(this.leftHeadlight);
-
+    this.crane.firstArt.angle += elapsedTime /100;
+    this.crane.secondArt.angle += elapsedTime /1000;
   }
 
   checkKeys() {
