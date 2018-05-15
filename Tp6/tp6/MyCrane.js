@@ -11,7 +11,7 @@ class MyCrane extends CGFobject {
     this.armlength = 5;
     this.armAngle = Math.PI / 3;
     this.firstArt = new MyArticulation(scene, [0, 1, 0], 0, this.armlength, this.armAngle);
-    this.secondArt = new MyArticulation(scene, [1, 0, 0], 0, this.armlength, this.armAngle);
+    this.secondArt = new MyArticulation(scene, [1, 0, 0], 0, this.armlength, 0);
     this.endPoint = new MyEndPoint(scene, 3);
 
   };
@@ -31,9 +31,9 @@ class MyCrane extends CGFobject {
     this.secondArt.display();
     this.scene.popMatrix();
 
-    pos[0] += this.secondArt.armlength * Math.sin(Math.PI / 2 - this.secondArt.armAngle) * Math.sin(this.secondArt.angle);
-    pos[1] += this.secondArt.armlength * Math.cos(Math.PI / 2 - this.secondArt.armAngle);
-    pos[2] += this.secondArt.armlength * Math.sin(Math.PI / 2 - this.secondArt.armAngle) * Math.cos(this.secondArt.angle);
+    pos[0] += this.secondArt.armlength * Math.cos(-this.secondArt.angle) * Math.sin(this.firstArt.angle);
+    pos[1] += this.secondArt.armlength * Math.sin(-this.secondArt.angle)
+    pos[2] += this.secondArt.armlength * Math.cos(-this.secondArt.angle) * Math.cos(this.firstArt.angle);
     this.scene.pushMatrix();
     this.scene.translate(pos[0], pos[1], pos[2]);
     this.endPoint.display();

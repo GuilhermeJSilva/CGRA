@@ -307,8 +307,8 @@ class LightingScene extends CGFscene {
     this.lights[5].setPosition(this.leftHeadlight);
     this.lights[6].setPosition(this.rightHeadlight);
 
-    this.crane.firstArt.angle += elapsedTime /100;
-    this.crane.secondArt.angle += elapsedTime /1000;
+    this.crane.firstArt.angle += elapsedTime /200;
+    this.crane.secondArt.angle += elapsedTime /2000;
   }
 
   checkKeys() {

@@ -9,7 +9,7 @@ class MyArticulation extends CGFobject {
     super(scene);
     this.rotationBase = new MyCappedCillinder(scene, 32, 2);
     this.arm = new MyCappedCillinder(scene, 32, 2);
-    this.angle = 0;
+    this.angle = angle;
     this.axis = axis;
     this.armlength = armlength;
     this.armAngle = armAngle;
