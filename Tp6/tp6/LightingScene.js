@@ -287,7 +287,7 @@ class LightingScene extends CGFscene {
     this.speed = Math.sqrt(Math.pow(this.car.velocity[0], 2) +
       Math.pow(this.car.velocity[1], 2));
 
-    if (this.car.velocity[0] < 0 || this.car.velocity[1] < 0)
+    if (this.car.velocity[0] < 0)
       this.speed = this.speed * -1;
 
     this.leftHeadlight[0] = this.car.moved[0] + this.initialCarPos[0] + this.car.leftHeadlightPos[0];
