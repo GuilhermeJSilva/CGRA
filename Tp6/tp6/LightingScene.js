@@ -32,25 +32,20 @@ class LightingScene extends CGFscene {
     this.light3 = false;
     this.light4 = false;
 
-    this.headlights = false;
-
-    this.leftHeadlight = [0, 0, 0];
-    this.rightHeadlight = [0, 0, 0];
-
     this.dis_axis = true;
     this.speed = 3;
 
     this.axis = new CGFaxis(this);
     this.altimetry = [
-      [2.0, 3.0, 2.0, 4.0, 2.5, 2.4, 2.3, 1.3],
-      [2.0, 3.0, 2.0, 4.0, 7.5, 6.4, 4.3, 1.3],
-      [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-      [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-      [0.0, 0.0, 2.0, 4.0, 2.5, 2.4, 0.0, 0.0],
-      [0.0, 0.0, 2.0, 4.0, 3.5, 2.4, 0.0, 0.0],
-      [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-      [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-      [2.0, 3.0, 2.0, 1.0, 2.5, 2.4, 2.3, 1.3]
+      [2.0, 3.0, 4.0, 0.0, -0.5, 2.4, 2.3, 1.3],
+      [3.0, 2.0, 1.0, 0.0, 0.0, 0.0, 2.3, 1.3],
+      [1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 2.8, 2.0],
+      [0.0, 0.0, 0.0, 0.0, 0.0, 0.6, 0.0, 0.0],
+      [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.8, 0.6],
+      [0.5, 0.0, 2.0, 4.0, 3.5, 2.4, 0.0, 0.8],
+      [0.4, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.6],
+      [0.6, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.5],
+      [0.3, 3.0, 2.0, 1.0, 2.5, 2.4, 2.3, 0.0]
     ];
 
     // Scene elements
@@ -190,27 +185,6 @@ class LightingScene extends CGFscene {
     if (this.light4)
       this.lights[4].enable();
 
-    this.lights[5].setPosition(this.leftHeadlight);
-    this.lights[5].setVisible(true);
-    //this.lights[5].setAmbient(0.7, 0.7, 0.7, 1);
-    this.lights[5].setDiffuse(1.0, 1.0, 1.0, 1.0);
-    this.lights[5].setSpecular(1.0, 1.0, 0, 1.0);
-    this.lights[5].setQuadraticAttenuation(0.2);
-    this.lights[5].setLinearAttenuation(1);
-
-    this.lights[6].setPosition(this.rightHeadlight);
-    this.lights[6].setVisible(true);
-    //this.lights[6].setAmbient(0.7, 0.7, 0.7, 1);
-    this.lights[6].setDiffuse(1.0, 1.0, 1.0, 1.0);
-    this.lights[6].setSpecular(1.0, 1.0, 0, 1.0);
-    this.lights[6].setQuadraticAttenuation(0.2);
-    this.lights[6].setLinearAttenuation(1);
-    if (this.headlights) {
-      console.log('headlights on');
-      this.lights[5].enable();
-      this.lights[6].enable();
-    }
-
     this.oldtime = 0;
     this.setUpdatePeriod(10);
   };
@@ -255,15 +229,11 @@ class LightingScene extends CGFscene {
       this.lights[1].enable();
     if (this.light0)
       this.lights[0].enable();
-    if (this.headlights) {
-      console.log('headlights on');
-      this.lights[5].enable();
-      this.lights[6].enable();
-    }
+
     // ---- END Background, camera and axis setup
 
     // ---- BEGIN Scene drawing section
-    /*
+    
     this.pushMatrix();
     this.translate(0, 5, 0);
     this.car.display();
@@ -272,7 +242,7 @@ class LightingScene extends CGFscene {
     this.pushMatrix();
     this.floor.display();
     this.popMatrix();
-    */
+    
     this.pushMatrix();
     this.crane.display();
     this.popMatrix();
@@ -296,19 +266,6 @@ class LightingScene extends CGFscene {
     if (this.car.velocity[0] < 0)
       this.speed = this.speed * -1;
 
-    this.leftHeadlight[0] = this.car.moved[0] + this.initialCarPos[0] + this.car.leftHeadlightPos[0];
-    this.leftHeadlight[1] = this.initialCarPos[1] + this.car.leftHeadlightPos[1];
-    this.leftHeadlight[2] = this.car.moved[1] + this.initialCarPos[2] + this.car.leftHeadlightPos[2] + 1.2;
-
-    this.rightHeadlight[0] = this.car.moved[0] + this.initialCarPos[0] + this.car.rightHeadlightPos[0];
-    this.rightHeadlight[1] = this.initialCarPos[1] + this.car.rightHeadlightPos[1];
-    this.rightHeadlight[2] = this.car.moved[1] + this.initialCarPos[2] + this.car.rightHeadlightPos[2] + 1.2;
-
-    this.lights[5].setPosition(this.leftHeadlight);
-    this.lights[6].setPosition(this.rightHeadlight);
-
-    this.crane.firstArt.angle += elapsedTime /200;
-    this.crane.secondArt.angle += elapsedTime /2000;
   }
 
   checkKeys() {
