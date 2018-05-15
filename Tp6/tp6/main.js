@@ -53,6 +53,7 @@ serialInclude([
 	'BezierRot.js',
   'MyTerrain.js',
   'MyInterface.js',
+  'vehicleAppearanceList.js',
 
 	main = function() {
     var app = new CGFapplication(document.body);

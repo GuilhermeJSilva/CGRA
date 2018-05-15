@@ -18,7 +18,7 @@ class MyInterface extends CGFinterface {
     super.init(application);
     this.initKeys();
     // init GUI. For more information on the methods, check:
-    //  http://workshop.chromeexperiments.com/examples/gui
+    //  http: //workshop.chromeexperiments.com/examples/gui
 
     this.gui = new dat.GUI();
 
@@ -42,13 +42,15 @@ class MyInterface extends CGFinterface {
     lights.add(this.scene, 'light2');
     lights.add(this.scene, 'light3');
     lights.add(this.scene, 'light4');
-
+    lights.add(this.scene, 'headlights');
     // add a slider
     // must be a numeric variable of the scene, initialized in scene.init e.g.
     // this.speed=3;
     // min and max values can be specified as parameters
 
-    this.gui.add(this.scene, 'speed', -5, 5);
+    this.gui.add(this.scene, 'speed', -5, 5).listen();
+
+    this.gui.add(this.scene, 'rimAppearancesCurrIndex', rimOptions);
 
     return true;
   };

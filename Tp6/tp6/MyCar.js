@@ -31,14 +31,15 @@ class MyCar extends CGFobject {
     let pp2 = [0.999, 0.35 + incY, 1 * (p1[2] - p4[2]) / 3 + p4[2] + incZ];
     let pp3 = [0.999, 0.35 + incY, 2 * (p1[2] - p4[2]) / 3 + p4[2] - incZ];
 
-    this.tireGuardFront = new BezierTrans(this.scene, 20, [-0.5 / 20, 0, 0], p1, p2, p3, p4, 0.01);
-    this.tireGuardFrontSide = new BezierTrans(this.scene, 20, [0, 0.5 / 20, 0], pp1, pp2, pp3, pp4, 0.01);
+    this.tireGuardFront = new BezierTrans(this.scene, 10, [-0.5 / 10, 0, 0], p1, p2, p3, p4, 0.1);
+    this.tireGuardFrontSide = new BezierTrans(this.scene, 10, [0, 0.5 / 10, 0], pp1, pp2, pp3, pp4, 0.1);
     //this.tireGuardFront = new BezierTrans(this.scene, 20, [-0.5 / 20, 0, 0], [1, 0.35 + incY, 2.1 + incZ], [1, 1 + incY, 1.8], [1, 1 + incY, 1.4 + incZ], [1, 0.35 + incY, 1.1 + incZ], 0.01);
     //this.tireGuardFrontSide = new BezierTrans(this.scene, 20, [0, 0.5 / 20, 0], [0.999, 0.35 + incY, 2.1 + incZ], [0.999, 0.85 + incY, 1.8 + incZ], [0.999, 0.85 + incY, 1.4], [0.999, 0.35 + incY, 1.1 + incZ], 0.01);
 
     //scene, slices, trans_vector, p1, p2, p3, p4, step)
 
-
+    this.leftHeadlightPos = [0.75, 0.8, 2.5];
+    this.rightHeadlightPos = [-0.75, 0.8, 2.5];
     //Physics variables
     this.angle = 0;
     this.angularVelocity = 0;
@@ -508,7 +509,7 @@ class MyCar extends CGFobject {
     this.scene.defaultAppearance.apply();
     this.scene.pushMatrix();
 
-    this.scene.translate(-0.71, 0.8, 2.5);
+    this.scene.translate(-0.75, 0.8, 2.5);
     this.scene.scale(0.15, 0.15, 0.05);
     this.scene.rotate(Math.PI / 2, 1, 0, 0);
     this.scene.headlightAppearance.apply();
@@ -517,14 +518,14 @@ class MyCar extends CGFobject {
     this.scene.popMatrix();
     this.scene.pushMatrix();
 
-    this.scene.translate(-0.71, 0.8, 2.5);
+    this.scene.translate(-0.75, 0.8, 2.5);
     this.scene.scale(0.17, 0.17, 0.035);
     this.cilinder.display();
 
     this.scene.popMatrix();
     this.scene.pushMatrix();
 
-    this.scene.translate(-0.71, 0.8, 2.515);
+    this.scene.translate(-0.75, 0.8, 2.515);
     this.scene.scale(0.17, 0.17, 1);
     this.circle.display();
 
