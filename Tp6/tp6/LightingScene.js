@@ -176,7 +176,7 @@ class LightingScene extends CGFscene {
       this.lights[4].enable();
 
     this.oldtime = 0;
-    this.setUpdatePeriod(100);
+    this.setUpdatePeriod(10);
   };
 
   updateLights() {
@@ -246,9 +246,9 @@ class LightingScene extends CGFscene {
   checkKeys() {
 
     if (this.gui.isKeyPressed("KeyW")) {
-      this.car.setMotorForce(10);
+      this.car.setMotorForce(20);
     } else if (this.gui.isKeyPressed("KeyS")) {
-      this.car.setMotorForce(-10);
+      this.car.setMotorForce(-20);
     } else {
       this.car.setMotorForce(0);
     }
