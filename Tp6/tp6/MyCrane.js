@@ -8,7 +8,7 @@ class MyCrane extends CGFobject {
   constructor(scene) {
     super(scene);
 
-    this.firstArt = new MyArticulation(scene, [0, 1, 0], 0, 7, Math.PI / 3);
+    this.firstArt = new MyArticulation(scene, [0, 1, 0], 0, 7, Math.PI / 2 - Math.PI/20);
     this.secondArt = new MyArticulation(scene, [1, 0, 0], 0, 5, 0);
     this.endPoint = new MyEndPoint(scene, 3);
 

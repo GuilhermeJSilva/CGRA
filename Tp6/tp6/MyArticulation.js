@@ -25,7 +25,7 @@ class MyArticulation extends CGFobject {
 
     this.scene.pushMatrix();
     this.scene.rotate(this.angle, this.axis[0], this.axis[1], this.axis[2]);
-    this.scene.rotate(Math.PI * 2 - this.armAngle, 1, 0, 0);
+    this.scene.rotate(-this.armAngle, 1, 0, 0);
     this.scene.scale(0.25, 0.25, this.armlength);
     this.scene.translate(0, 0, 0.5);
     this.arm.display();
