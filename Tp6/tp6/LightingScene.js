@@ -239,7 +239,7 @@ class LightingScene extends CGFscene {
       return;
     }
     var elapsedTime = currentTime - this.oldtime;
-    this.car.updatePosition(elapsedTime/1000);
+    this.car.updatePosition(elapsedTime / 1000);
     this.oldtime = currentTime;
   }
 
@@ -255,8 +255,13 @@ class LightingScene extends CGFscene {
 
     if (this.gui.isKeyPressed("KeyA")) {
       this.car.incTurningAngle(0.03);
+      this.car.setTurning(true);
     } else if (this.gui.isKeyPressed("KeyD")) {
       this.car.incTurningAngle(-0.03);
+      this.car.setTurning(true);
+    } else {
+      this.car.setTurning(false);
+
     }
   }
 
