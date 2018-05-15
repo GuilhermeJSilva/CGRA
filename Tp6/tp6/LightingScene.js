@@ -252,6 +252,12 @@ class LightingScene extends CGFscene {
     var elapsedTime = currentTime - this.oldtime;
     this.car.updatePosition(elapsedTime / 1000);
     this.oldtime = currentTime;
+
+    this.speed = Math.sqrt(Math.pow(this.car.velocity[0], 2) +
+      Math.pow(this.car.velocity[1], 2));
+
+    if (this.car.velocity[0] < 0 || this.car.velocity[1] < 0)
+      this.speed = this.speed * -1;
   }
 
   checkKeys() {
