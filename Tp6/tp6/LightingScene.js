@@ -7,294 +7,292 @@ var BOARD_A_DIVISIONS = 30;
 var BOARD_B_DIVISIONS = 100;
 
 class LightingScene extends CGFscene {
-  constructor() {
-    super();
-  };
+    constructor() {
+        super();
+    };
 
-  init(application) {
-    super.init(application);
+    init(application) {
+        super.init(application);
 
-    this.enableTextures(true);
+        this.enableTextures(true);
 
-    this.initCameras();
+        this.initCameras();
 
-    this.initLights();
+        this.initLights();
 
-    this.gl.clearColor(173 / 255, 216 / 255, 230 / 255, 1.0);
-    this.gl.clearDepth(100.0);
-    this.gl.enable(this.gl.DEPTH_TEST);
-    this.gl.enable(this.gl.CULL_FACE);
-    this.gl.depthFunc(this.gl.LEQUAL);
+        this.gl.clearColor(173 / 255, 216 / 255, 230 / 255, 1.0);
+        this.gl.clearDepth(100.0);
+        this.gl.enable(this.gl.DEPTH_TEST);
+        this.gl.enable(this.gl.CULL_FACE);
+        this.gl.depthFunc(this.gl.LEQUAL);
 
-    this.light0 = true;
-    this.light1 = false;
-    this.light2 = false;
-    this.light3 = false;
-    this.light4 = false;
+        this.light0 = true;
+        this.light1 = false;
+        this.light2 = false;
+        this.light3 = false;
+        this.light4 = false;
 
-    this.dis_axis = true;
-    this.speed = 3;
+        this.dis_axis = true;
+        this.speed = 3;
 
-    this.axis = new CGFaxis(this);
-    this.altimetry = [
-      [2.0, 3.0, 4.0, 0.0, -0.5, 2.4, 2.3, 1.3],
-      [3.0, 2.0, 1.0, 0.0, 0.0, 0.0, 2.3, 1.3],
-      [1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 2.8, 2.0],
-      [0.0, 0.0, 0.0, 0.0, 0.0, 0.6, 0.0, 0.0],
-      [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.8, 0.6],
-      [0.5, 0.0, 2.0, 4.0, 3.5, 2.4, 0.0, 0.8],
-      [0.4, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.6],
-      [0.6, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.5],
-      [0.3, 3.0, 2.0, 1.0, 2.5, 2.4, 2.3, 0.0]
-    ];
+        this.axis = new CGFaxis(this);
+        this.altimetry = [
+            [2.0, 3.0, 4.0, 0.0, -0.5, 2.4, 2.3, 1.3],
+            [3.0, 2.0, 1.0, 0.0, 0.0, 0.0, 2.3, 1.3],
+            [1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 2.8, 2.0],
+            [0.0, 0.0, 0.0, 0.0, 0.0, 0.6, 0.0, 0.0],
+            [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.8, 0.6],
+            [0.5, 0.0, 2.0, 4.0, 3.5, 2.4, 0.0, 0.8],
+            [0.4, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.6],
+            [0.6, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.5],
+            [0.3, 3.0, 2.0, 1.0, 2.5, 2.4, 2.3, 0.0]
+        ];
 
-    // Scene elements
-    this.car = new MyCar(this);
-    this.initialCarPos = [0, 5, 0];
-    this.floor = new MyTerrain(this, 8, this.altimetry);
-    this.crane = new MyCrane(this);
+        // Scene elements
+        this.car = new MyCar(this);
+        this.initialCarPos = [0, 5, 0];
+        this.floor = new MyTerrain(this, 8, this.altimetry);
+        this.crane = new MyCrane(this, this.car, [0, 0, 8]);
 
-    this.rimAppearances = new Array();
-    this.rimAppearancesCurrIndex = 0;
+        this.rimAppearances = new Array();
+        this.rimAppearancesCurrIndex = 0;
 
-    // Scene Appearances
+        // Scene Appearances
 
-    this.vintageRimAppearance = new CGFappearance(this);
-    this.vintageRimAppearance.loadTexture('../resources/images/vintage_rim.png');
+        this.vintageRimAppearance = new CGFappearance(this);
+        this.vintageRimAppearance.loadTexture('../resources/images/vintage_rim.png');
 
-    this.newRimAppearance = new CGFappearance(this);
-    this.newRimAppearance.loadTexture('../resources/images/wheel.png');
+        this.newRimAppearance = new CGFappearance(this);
+        this.newRimAppearance.loadTexture('../resources/images/wheel.png');
 
-    this.rimAppearances.push(this.vintageRimAppearance, this.newRimAppearance);
+        this.rimAppearances.push(this.vintageRimAppearance, this.newRimAppearance);
 
-    this.tireAppearance = new CGFappearance(this);
-    this.tireAppearance.loadTexture('../resources/images/rubber.jpg');
+        this.tireAppearance = new CGFappearance(this);
+        this.tireAppearance.loadTexture('../resources/images/rubber.jpg');
 
-    this.vwLogoAppearance = new CGFappearance(this);
-    this.vwLogoAppearance.loadTexture('../resources/images/vw_logo.png');
+        this.vwLogoAppearance = new CGFappearance(this);
+        this.vwLogoAppearance.loadTexture('../resources/images/vw_logo.png');
 
-    this.windShieldAppearance = new CGFappearance(this);
-    this.windShieldAppearance.loadTexture('../resources/images/front.png');
+        this.windShieldAppearance = new CGFappearance(this);
+        this.windShieldAppearance.loadTexture('../resources/images/front.png');
 
-    this.frontAppearance = new CGFappearance(this);
-    this.frontAppearance.loadTexture('../resources/images/front_low.png');
+        this.frontAppearance = new CGFappearance(this);
+        this.frontAppearance.loadTexture('../resources/images/front_low.png');
 
-    this.sideMidLeftAppearance = new CGFappearance(this);
-    this.sideMidLeftAppearance.loadTexture('../resources/images/side_mid_left.png');
-
-    this.sideMidRightAppearance = new CGFappearance(this);
-    this.sideMidRightAppearance.loadTexture('../resources/images/side_mid_right.png');
-
-    this.sideHighLeftAppearance = new CGFappearance(this);
-    this.sideHighLeftAppearance.loadTexture('../resources/images/side_high_left.png');
-
-    this.sideHighRightAppearance = new CGFappearance(this);
-    this.sideHighRightAppearance.loadTexture('../resources/images/side_high_right.png');
-
-    this.sideLowLeftAppearance = new CGFappearance(this);
-    this.sideLowLeftAppearance.loadTexture('../resources/images/side_low_left.png');
-
-    this.sideLowRightAppearance = new CGFappearance(this);
-    this.sideLowRightAppearance.loadTexture('../resources/images/side_low_right.png');
-
-    this.sideFrontRightAppearance = new CGFappearance(this);
-    this.sideFrontRightAppearance.loadTexture('../resources/images/side_front_right.png');
-
-    this.sideFrontLeftAppearance = new CGFappearance(this);
-    this.sideFrontLeftAppearance.loadTexture('../resources/images/side_front_left.png');
-
-    this.sideRearRightAppearance = new CGFappearance(this);
-    this.sideRearRightAppearance.loadTexture('../resources/images/side_rear_right.png');
-
-    this.sideRearLeftAppearance = new CGFappearance(this);
-    this.sideRearLeftAppearance.loadTexture('../resources/images/side_rear_left.png');
-
-    this.headlightAppearance = new CGFappearance(this);
-    this.headlightAppearance.loadTexture('../resources/images/headlight.png');
-
-    this.blinkerAppearance = new CGFappearance(this);
-    this.blinkerAppearance.loadTexture('../resources/images/blinker.png');
-
-    this.blueMetalAppearance = new CGFappearance(this);
-    this.blueMetalAppearance.loadTexture('../resources/images/blue_metal.png');
-
-    this.defaultAppearance = new CGFappearance(this);
-
-    this.shadowAppearance = new CGFappearance(this);
-    this.shadowAppearance.setSpecular(0, 0, 0, 1);
-    this.shadowAppearance.setDiffuse(0, 0, 0, 1);
-    this.shadowAppearance.setAmbient(0.1, 0.1, 0.1, 1);
-  };
-
-  initCameras() {
-    this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
-  };
-
-  initLights() {
-    this.setGlobalAmbientLight(0, 0, 0, 1.0);
-
-    // Positions for four lights
-    this.lights[0].setPosition(4, 6, 1, 1);
-    this.lights[0].setVisible(true); // show marker on light position (different from enabled)
-
-    this.lights[1].setPosition(10.5, 6.0, 1.0, 1.0);
-    this.lights[1].setVisible(true); // show marker on light position (different from enabled)
-
-    this.lights[2].setPosition(-5, -6.0, -5.0, 1.0);
-    this.lights[2].setVisible(true); // show marker on light position (different from enabled)
-    this.lights[3].setPosition(4, 6.0, 5.0, 1.0);
-    this.lights[3].setVisible(true); // show marker on light position (different from enabled)
-
-    this.lights[0].setAmbient(0, 0, 0, 1);
-    this.lights[0].setDiffuse(1.0, 1.0, 1.0, 1.0);
-    this.lights[0].setSpecular(1, 1, 0, 1);
-    if (this.light0)
-      this.lights[0].enable();
-
-    this.lights[1].setAmbient(0, 0, 0, 1);
-    this.lights[1].setDiffuse(1.0, 1.0, 1.0, 1.0);
-    if (this.light1)
-      this.lights[1].enable();
-
-    this.lights[2].setAmbient(0, 0, 0, 1);
-    this.lights[2].setDiffuse(1.0, 1.0, 1.0, 1.0);
-    this.lights[2].setSpecular(1.0, 1.0, 1.0, 1.0);
-    this.lights[2].setConstantAttenuation(0);
-    this.lights[2].setLinearAttenuation(1);
-    this.lights[2].setQuadraticAttenuation(0);
-    if (this.light2)
-      this.lights[2].enable();
-
-    this.lights[3].setAmbient(0, 0, 0, 1);
-    this.lights[3].setDiffuse(1.0, 1.0, 1.0, 1.0);
-    this.lights[3].setSpecular(1.0, 1.0, 0, 1.0);
-    this.lights[3].setConstantAttenuation(0);
-    this.lights[3].setLinearAttenuation(0);
-    this.lights[3].setQuadraticAttenuation(0.2);
-    if (this.light3)
-      this.lights[3].enable();
-
-    this.lights[4].setPosition(0, 0, 5);
-    this.lights[4].setVisible(true);
-    this.lights[4].setAmbient(0.7, 0.7, 0.7, 1);
-    this.lights[4].setDiffuse(1.0, 1.0, 1.0, 1.0);
-    this.lights[4].setSpecular(1.0, 1.0, 0, 1.0);
-    //this.lights[4].setConstantAttenuation(0);
-    //this.lights[4].setLinearAttenuation(1);
-    this.lights[4].setQuadraticAttenuation(0.2);
-    if (this.light4)
-      this.lights[4].enable();
-
-    this.oldtime = 0;
-    this.setUpdatePeriod(10);
-  };
-
-  updateLights() {
-    for (var i = 0; i < this.lights.length; i++)
-      this.lights[i].update();
-  }
-
-
-  display() {
-    // ---- BEGIN Background, camera and axis setup
-
-    // Clear image and depth buffer everytime we update the scene
-    this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
-    this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
-
-    // Initialize Model-View matrix as identity (no transformation)
-    this.updateProjectionMatrix();
-    this.loadIdentity();
-
-    // Apply transformations corresponding to the camera position relative to the origin
-    this.applyViewMatrix();
-
-    // Update all lights used
-    this.updateLights();
-
-    // Draw axis
-    if (this.dis_axis)
-      this.axis.display();
-
-    for (var i = 0; i < this.lights.length; i++) {
-      this.lights[i].disable();
-    }
-    if (this.light4)
-      this.lights[4].enable();
-    if (this.light3)
-      this.lights[4].enable();
-    if (this.light2)
-      this.lights[2].enable();
-    if (this.light1)
-      this.lights[1].enable();
-    if (this.light0)
-      this.lights[0].enable();
-
-    // ---- END Background, camera and axis setup
-
-    // ---- BEGIN Scene drawing section
-
-    this.pushMatrix();
-    this.translate(0, 5, 0);
-    this.car.display();
-    this.popMatrix();
-
-    this.pushMatrix();
-    this.floor.display();
-    this.popMatrix();
-
-    this.pushMatrix();
-    this.defaultAppearance.apply();
-    this.crane.display();
-    this.popMatrix();
-    // ---- END Scene drawing section
-
-    this.checkKeys();
-  };
-
-  update(currentTime) {
-    if (this.oldtime == 0) {
-      this.oldtime = currentTime;
-      return;
-    }
-    var elapsedTime = currentTime - this.oldtime;
-    this.car.updatePosition(elapsedTime / 1000);
-    this.oldtime = currentTime;
-
-    this.speed = Math.sqrt(Math.pow(this.car.velocity[0], 2) +
-      Math.pow(this.car.velocity[1], 2));
-
-    if (this.car.velocity[0] < 0)
-      this.speed = this.speed * -1;
-
-    //this.crane.firstArt.angle += elapsedTime /1000;
-    //this.crane.secondArt.angle += elapsedTime / 500;
-
-  }
-
-  checkKeys() {
-
-    if (this.gui.isKeyPressed("KeyW")) {
-      this.car.setMotorForce(20);
-    } else if (this.gui.isKeyPressed("KeyS")) {
-      this.car.setMotorForce(-20);
-    } else {
-      this.car.setMotorForce(0);
+        this.sideMidLeftAppearance = new CGFappearance(this);
+        this.sideMidLeftAppearance.loadTexture('../resources/images/side_mid_left.png');
+
+        this.sideMidRightAppearance = new CGFappearance(this);
+        this.sideMidRightAppearance.loadTexture('../resources/images/side_mid_right.png');
+
+        this.sideHighLeftAppearance = new CGFappearance(this);
+        this.sideHighLeftAppearance.loadTexture('../resources/images/side_high_left.png');
+
+        this.sideHighRightAppearance = new CGFappearance(this);
+        this.sideHighRightAppearance.loadTexture('../resources/images/side_high_right.png');
+
+        this.sideLowLeftAppearance = new CGFappearance(this);
+        this.sideLowLeftAppearance.loadTexture('../resources/images/side_low_left.png');
+
+        this.sideLowRightAppearance = new CGFappearance(this);
+        this.sideLowRightAppearance.loadTexture('../resources/images/side_low_right.png');
+
+        this.sideFrontRightAppearance = new CGFappearance(this);
+        this.sideFrontRightAppearance.loadTexture('../resources/images/side_front_right.png');
+
+        this.sideFrontLeftAppearance = new CGFappearance(this);
+        this.sideFrontLeftAppearance.loadTexture('../resources/images/side_front_left.png');
+
+        this.sideRearRightAppearance = new CGFappearance(this);
+        this.sideRearRightAppearance.loadTexture('../resources/images/side_rear_right.png');
+
+        this.sideRearLeftAppearance = new CGFappearance(this);
+        this.sideRearLeftAppearance.loadTexture('../resources/images/side_rear_left.png');
+
+        this.headlightAppearance = new CGFappearance(this);
+        this.headlightAppearance.loadTexture('../resources/images/headlight.png');
+
+        this.blinkerAppearance = new CGFappearance(this);
+        this.blinkerAppearance.loadTexture('../resources/images/blinker.png');
+
+        this.blueMetalAppearance = new CGFappearance(this);
+        this.blueMetalAppearance.loadTexture('../resources/images/blue_metal.png');
+
+        this.defaultAppearance = new CGFappearance(this);
+
+        this.shadowAppearance = new CGFappearance(this);
+        this.shadowAppearance.setSpecular(0, 0, 0, 1);
+        this.shadowAppearance.setDiffuse(0, 0, 0, 1);
+        this.shadowAppearance.setAmbient(0.1, 0.1, 0.1, 1);
+    };
+
+    initCameras() {
+        this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
+    };
+
+    initLights() {
+        this.setGlobalAmbientLight(0, 0, 0, 1.0);
+
+        // Positions for four lights
+        this.lights[0].setPosition(4, 6, 1, 1);
+        this.lights[0].setVisible(true); // show marker on light position (different from enabled)
+
+        this.lights[1].setPosition(10.5, 6.0, 1.0, 1.0);
+        this.lights[1].setVisible(true); // show marker on light position (different from enabled)
+
+        this.lights[2].setPosition(-5, -6.0, -5.0, 1.0);
+        this.lights[2].setVisible(true); // show marker on light position (different from enabled)
+        this.lights[3].setPosition(4, 6.0, 5.0, 1.0);
+        this.lights[3].setVisible(true); // show marker on light position (different from enabled)
+
+        this.lights[0].setAmbient(0, 0, 0, 1);
+        this.lights[0].setDiffuse(1.0, 1.0, 1.0, 1.0);
+        this.lights[0].setSpecular(1, 1, 0, 1);
+        if (this.light0)
+            this.lights[0].enable();
+
+        this.lights[1].setAmbient(0, 0, 0, 1);
+        this.lights[1].setDiffuse(1.0, 1.0, 1.0, 1.0);
+        if (this.light1)
+            this.lights[1].enable();
+
+        this.lights[2].setAmbient(0, 0, 0, 1);
+        this.lights[2].setDiffuse(1.0, 1.0, 1.0, 1.0);
+        this.lights[2].setSpecular(1.0, 1.0, 1.0, 1.0);
+        this.lights[2].setConstantAttenuation(0);
+        this.lights[2].setLinearAttenuation(1);
+        this.lights[2].setQuadraticAttenuation(0);
+        if (this.light2)
+            this.lights[2].enable();
+
+        this.lights[3].setAmbient(0, 0, 0, 1);
+        this.lights[3].setDiffuse(1.0, 1.0, 1.0, 1.0);
+        this.lights[3].setSpecular(1.0, 1.0, 0, 1.0);
+        this.lights[3].setConstantAttenuation(0);
+        this.lights[3].setLinearAttenuation(0);
+        this.lights[3].setQuadraticAttenuation(0.2);
+        if (this.light3)
+            this.lights[3].enable();
+
+        this.lights[4].setPosition(0, 0, 5);
+        this.lights[4].setVisible(true);
+        this.lights[4].setAmbient(0.7, 0.7, 0.7, 1);
+        this.lights[4].setDiffuse(1.0, 1.0, 1.0, 1.0);
+        this.lights[4].setSpecular(1.0, 1.0, 0, 1.0);
+        //this.lights[4].setConstantAttenuation(0);
+        //this.lights[4].setLinearAttenuation(1);
+        this.lights[4].setQuadraticAttenuation(0.2);
+        if (this.light4)
+            this.lights[4].enable();
+
+        this.oldtime = 0;
+        this.setUpdatePeriod(10);
+    };
+
+    updateLights() {
+        for (var i = 0; i < this.lights.length; i++)
+            this.lights[i].update();
     }
 
-    if (this.gui.isKeyPressed("KeyA")) {
-      this.car.incTurningAngle(0.03);
-      this.car.setTurning(true);
-    } else if (this.gui.isKeyPressed("KeyD")) {
-      this.car.incTurningAngle(-0.03);
-      this.car.setTurning(true);
-    } else {
-      this.car.setTurning(false);
+
+    display() {
+        // ---- BEGIN Background, camera and axis setup
+
+        // Clear image and depth buffer everytime we update the scene
+        this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
+        this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
+
+        // Initialize Model-View matrix as identity (no transformation)
+        this.updateProjectionMatrix();
+        this.loadIdentity();
+
+        // Apply transformations corresponding to the camera position relative to the origin
+        this.applyViewMatrix();
+
+        // Update all lights used
+        this.updateLights();
+
+        // Draw axis
+        if (this.dis_axis)
+            this.axis.display();
+
+        for (var i = 0; i < this.lights.length; i++) {
+            this.lights[i].disable();
+        }
+        if (this.light4)
+            this.lights[4].enable();
+        if (this.light3)
+            this.lights[4].enable();
+        if (this.light2)
+            this.lights[2].enable();
+        if (this.light1)
+            this.lights[1].enable();
+        if (this.light0)
+            this.lights[0].enable();
+
+        // ---- END Background, camera and axis setup
+
+        // ---- BEGIN Scene drawing section
+
+        this.pushMatrix();
+        this.car.display();
+        this.popMatrix();
+
+        this.pushMatrix();
+        //this.floor.display();
+        this.popMatrix();
+
+        this.pushMatrix();
+        this.defaultAppearance.apply();
+        this.crane.display();
+        this.popMatrix();
+        // ---- END Scene drawing section
+
+        this.checkKeys();
+    };
+
+    update(currentTime) {
+        if (this.oldtime == 0) {
+            this.oldtime = currentTime;
+            return;
+        }
+        var elapsedTime = currentTime - this.oldtime;
+        this.car.updatePosition(elapsedTime / 1000);
+        this.oldtime = currentTime;
+
+        this.speed = Math.sqrt(Math.pow(this.car.velocity[0], 2) +
+            Math.pow(this.car.velocity[1], 2));
+
+        if (this.car.velocity[0] < 0)
+            this.speed = this.speed * -1;
+
+        this.crane.update(elapsedTime);
 
     }
-  }
 
-  toggleAxis() {
-    this.dis_axis = !this.dis_axis;
-  };
+    checkKeys() {
+
+        if (this.gui.isKeyPressed("KeyW")) {
+            this.car.setMotorForce(20);
+        } else if (this.gui.isKeyPressed("KeyS")) {
+            this.car.setMotorForce(-20);
+        } else {
+            this.car.setMotorForce(0);
+        }
+
+        if (this.gui.isKeyPressed("KeyA")) {
+            this.car.incTurningAngle(0.03);
+            this.car.setTurning(true);
+        } else if (this.gui.isKeyPressed("KeyD")) {
+            this.car.incTurningAngle(-0.03);
+            this.car.setTurning(true);
+        } else {
+            this.car.setTurning(false);
+
+        }
+    }
+
+    toggleAxis() {
+        this.dis_axis = !this.dis_axis;
+    };
 };

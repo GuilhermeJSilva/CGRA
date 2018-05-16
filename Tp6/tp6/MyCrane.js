@@ -3,38 +3,158 @@
  * @param gl {WebGLRenderingContext}
  * @constructor
  */
+var CraneStates = Object.freeze({
+    "Stopped": 0,
+    "TurningToCar": 1,
+    "LoweringMagnet": 2,
+    "TurningFromCar": 3,
+    "ReleasingCar": 4,
+    "Reseting": 5
+});
 
 class MyCrane extends CGFobject {
-  constructor(scene) {
-    super(scene);
+    constructor(scene, car, pos) {
+        super(scene);
 
-    this.firstArt = new MyArticulation(scene, [0, 1, 0], 0, 7, Math.PI / 2 - Math.PI/20);
-    this.secondArt = new MyArticulation(scene, [1, 0, 0], 0, 5, 0);
-    this.endPoint = new MyEndPoint(scene, 3);
+        this.firstArt = new MyArticulation(scene, [0, 1, 0], 0, 7, Math.PI / 2 - Math.PI / 10);
+        this.secondArt = new MyArticulation(scene, [1, 0, 0], 0, 6, 0);
+        this.endPoint = new MyEndPoint(scene, 3);
 
-  };
+        this.state = CraneStates.Stopped;
+        this.t = 0;
 
-  display() {
-    var pos = [0, 0, 0];
-    this.scene.pushMatrix();
-    this.firstArt.display();
-    this.scene.popMatrix();
+        this.pos = pos;
 
-    this.scene.pushMatrix();
-    pos[0] += this.firstArt.armlength * Math.sin(Math.PI / 2 - this.firstArt.armAngle) * Math.sin(this.firstArt.angle);
-    pos[1] += this.firstArt.armlength * Math.cos(Math.PI / 2 - this.firstArt.armAngle);
-    pos[2] += this.firstArt.armlength * Math.sin(Math.PI / 2 - this.firstArt.armAngle) * Math.cos(this.firstArt.angle);
-    this.scene.translate(pos[0], pos[1], pos[2]);
-    this.scene.rotate(this.firstArt.angle, 0, 1, 0);
-    this.secondArt.display();
-    this.scene.popMatrix();
+        this.car = car;
+        this.tipPosition = [0, 0, 0];
+        this.lastTipPosition = new Array();
+        this.start = true;
 
-    pos[0] += this.secondArt.armlength * Math.cos(-this.secondArt.angle) * Math.sin(this.firstArt.angle);
-    pos[1] += this.secondArt.armlength * Math.sin(-this.secondArt.angle)
-    pos[2] += this.secondArt.armlength * Math.cos(-this.secondArt.angle) * Math.cos(this.firstArt.angle);
-    this.scene.pushMatrix();
-    this.scene.translate(pos[0], pos[1], pos[2]);
-    this.endPoint.display();
-    this.scene.popMatrix();
-  }
+        this.timeElapsed = 0;
+        this.lastFirstAngle = 0;
+        this.lastSecondAngle = 0;
+
+    };
+
+    display() {
+        this.lastTipPosition = this.tipPosition;
+
+        var pos = [0, 0, 0];
+
+        this.scene.pushMatrix();
+        this.scene.translate(this.pos[0], this.pos[1], this.pos[2]);
+
+        this.scene.pushMatrix();
+        this.firstArt.display();
+        this.scene.popMatrix();
+
+        this.scene.pushMatrix();
+        pos[0] += this.firstArt.armlength * Math.sin(Math.PI / 2 - this.firstArt.armAngle) * Math.sin(this.firstArt.angle);
+        pos[1] += this.firstArt.armlength * Math.cos(Math.PI / 2 - this.firstArt.armAngle);
+        pos[2] += this.firstArt.armlength * Math.sin(Math.PI / 2 - this.firstArt.armAngle) * Math.cos(this.firstArt.angle);
+        this.scene.translate(pos[0], pos[1], pos[2]);
+        this.scene.rotate(this.firstArt.angle, 0, 1, 0);
+        this.secondArt.display();
+        this.scene.popMatrix();
+
+        pos[0] += this.secondArt.armlength * Math.cos(-this.secondArt.angle) * Math.sin(this.firstArt.angle);
+        pos[1] += this.secondArt.armlength * Math.sin(-this.secondArt.angle)
+        pos[2] += this.secondArt.armlength * Math.cos(-this.secondArt.angle) * Math.cos(this.firstArt.angle);
+        this.scene.pushMatrix();
+        this.scene.translate(pos[0], pos[1], pos[2]);
+        this.endPoint.display();
+        this.scene.popMatrix();
+
+        this.tipPosition = pos;
+
+        if (this.state == CraneStates.TurningFromCar || this.state == CraneStates.ReleasingCar) {
+            for (let i = 0; i < this.tipPosition.length; i++) {
+                if (!this.start) {
+                    this.car.moved[i] += this.tipPosition[i] - this.lastTipPosition[i];
+                }
+            }
+        }
+        this.start = false;
+        this.scene.popMatrix();
+    }
+
+    update(elapsedTime) {
+
+        if (this.state != CraneStates.Stopped)
+            this.t += elapsedTime / 1000;
+
+        const turning_time = [4, 1, 4, 1, 1];
+
+        switch (this.state) {
+            case CraneStates.Stopped:
+                break;
+
+            case CraneStates.TurningToCar:
+                this.car.restrictMovement();
+                this.firstArt.angle = this.lastFirstAngle + Math.PI * this.t / turning_time[0];
+
+                if (this.t >= turning_time[0]) {
+                    this.state = CraneStates.LoweringMagnet;
+                    this.timeElapsed = turning_time[0];
+                    this.lastFirstAngle = this.firstArt.angle;
+                    this.lastSecondAngle = this.secondArt.angle;
+                }
+                break;
+
+            case CraneStates.LoweringMagnet:
+
+                this.secondArt.angle = this.lastSecondAngle + Math.PI / 13 * (this.t - this.timeElapsed) / turning_time[1];
+
+                if ((this.t - this.timeElapsed) >= turning_time[1]) {
+                    this.state = CraneStates.TurningFromCar;
+                    this.timeElapsed += turning_time[1];
+                    this.lastFirstAngle = this.firstArt.angle;
+                    this.lastSecondAngle = this.secondArt.angle;
+
+                }
+                break;
+
+            case CraneStates.TurningFromCar:
+
+                this.firstArt.angle = this.lastFirstAngle - Math.PI * (this.t - this.timeElapsed) / turning_time[2];
+
+                if (this.t - this.timeElapsed <= 1)
+                    this.secondArt.angle = this.lastSecondAngle - Math.PI / 13 * (this.t - this.timeElapsed);
+
+                if ((this.t - this.timeElapsed) >= turning_time[2]) {
+                    this.state = CraneStates.ReleasingCar;
+                    this.timeElapsed += turning_time[2];
+                    this.lastFirstAngle = this.firstArt.angle;
+                    this.lastSecondAngle = this.secondArt.angle;
+                }
+                break;
+
+            case CraneStates.ReleasingCar:
+                this.secondArt.angle = this.lastSecondAngle + Math.PI / 13 * (this.t - this.timeElapsed) / turning_time[3];
+
+                if ((this.t - this.timeElapsed) >= turning_time[3]) {
+                    this.state = CraneStates.Reseting;
+                    this.timeElapsed += turning_time[3];
+                    this.lastFirstAngle = this.firstArt.angle;
+                    this.lastSecondAngle = this.secondArt.angle;
+                    this.car.allowMovement();
+                }
+                break;
+
+            case CraneStates.Reseting:
+                this.secondArt.angle = this.lastSecondAngle - Math.PI / 13 * (this.t - this.timeElapsed) / turning_time[4];
+
+                if ((this.t - this.timeElapsed) >= turning_time[4]) {
+                    this.state = CraneStates.Stopped;
+                    this.timeElapsed += turning_time[4];
+                    this.timeElapsed = 0;
+                    this.lastFirstAngle = 0;
+                    this.lastSecondAngle = 0;
+                }
+                break;
+            default:
+
+        }
+    };
+
 };
