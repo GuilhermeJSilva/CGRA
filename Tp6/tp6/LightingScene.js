@@ -273,9 +273,9 @@ class LightingScene extends CGFscene {
     checkKeys() {
 
         if (this.gui.isKeyPressed("KeyW")) {
-            this.car.setMotorForce(20);
+            this.car.setMotorForce(40);
         } else if (this.gui.isKeyPressed("KeyS")) {
-            this.car.setMotorForce(-20);
+            this.car.setMotorForce(-40);
         } else {
             this.car.setMotorForce(0);
         }
