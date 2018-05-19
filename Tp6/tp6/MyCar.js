@@ -42,7 +42,7 @@ class MyCar extends CGFobject {
     this.angle = 0;
     this.angularVelocity = 0;
 
-    this.moved = [0, 0];
+    this.moved = [0, 0, 0];
     this.velocity = [0, 0];
     this.accelaration = [0, 0];
 
@@ -51,7 +51,18 @@ class MyCar extends CGFobject {
     this.wheelRadius = 0.35;
 
     this.turning = false;
+    this.movementAllowed = true;
   };
+
+  restrictMovement() {
+    this.movementAllowed = false;
+    this.velocity = [0, 0];
+    this.accelaration = [0, 0];
+  }
+
+  allowMovement() {
+    this.movementAllowed = true;
+  }
 
   setTurning(turning) {
     this.turning = turning;
@@ -71,37 +82,38 @@ class MyCar extends CGFobject {
   }
 
   updatePosition(elapsedTime) {
-    this.normalizeVelocity();
+    if (this.movementAllowed) {
+      this.normalizeVelocity();
 
-    let air_resistance = [-this.velocity[0] * Math.abs(this.velocity[0]) * 6, -this.velocity[1] * Math.abs(this.velocity[1]) * 6];
+      let air_resistance = [-this.velocity[0] * Math.abs(this.velocity[0]) * 6, -this.velocity[1] * Math.abs(this.velocity[1]) * 6];
 
-    this.accelaration[0] = (this.motorForce) * Math.sin(this.frontWheel.getTurningAngle() + this.angle) + air_resistance[0];
+      this.accelaration[0] = (this.motorForce) * Math.sin(this.frontWheel.getTurningAngle() + this.angle) + air_resistance[0];
 
-    this.accelaration[1] = (this.motorForce) * Math.cos(this.frontWheel.getTurningAngle() + this.angle) + air_resistance[1];
+      this.accelaration[1] = (this.motorForce) * Math.cos(this.frontWheel.getTurningAngle() + this.angle) + air_resistance[1];
 
 
-    this.velocity[0] += this.accelaration[0] * elapsedTime;
-    this.velocity[1] += this.accelaration[1] * elapsedTime;
+      this.velocity[0] += this.accelaration[0] * elapsedTime;
+      this.velocity[1] += this.accelaration[1] * elapsedTime;
 
-    this.moved[0] += this.velocity[0] * elapsedTime;
-    this.moved[1] += this.velocity[1] * elapsedTime;
+      this.moved[0] += this.velocity[0] * elapsedTime;
+      this.moved[2] += this.velocity[1] * elapsedTime;
 
-    let velocity = Math.sqrt(Math.pow(this.velocity[1], 2) + Math.pow(this.velocity[0], 2));
-    if (this.velocity[1] != 0) {
-      if (this.angle >= Math.PI / 2 && this.angle <= 3 * Math.PI / 2)
-        this.incForwardAngle(-this.velocity[1] / Math.abs(this.velocity[1]) * velocity * elapsedTime / this.wheelRadius);
-      else
-        this.incForwardAngle(this.velocity[1] / Math.abs(this.velocity[1]) * velocity * elapsedTime / this.wheelRadius);
+      let velocity = Math.sqrt(Math.pow(this.velocity[1], 2) + Math.pow(this.velocity[0], 2));
+      if (this.velocity[1] != 0) {
+        if (this.angle >= Math.PI / 2 && this.angle <= 3 * Math.PI / 2)
+          this.incForwardAngle(-this.velocity[1] / Math.abs(this.velocity[1]) * velocity * elapsedTime / this.wheelRadius);
+        else
+          this.incForwardAngle(this.velocity[1] / Math.abs(this.velocity[1]) * velocity * elapsedTime / this.wheelRadius);
+      }
+
+      if (velocity != 0 && this.motorForce != 0)
+        this.angularVelocity = this.motorForce / Math.abs(this.motorForce) * 2 * this.deltaZ * velocity * Math.sin(this.frontWheel.getTurningAngle()) / 10;
+      else {
+        this.angularVelocity = 0;
+      }
+      this.angle += this.angularVelocity * elapsedTime;
+      this.updateTurningAngle(elapsedTime);
     }
-
-    if (velocity != 0 && this.motorForce != 0)
-      this.angularVelocity = this.motorForce / Math.abs(this.motorForce) * 2 * this.deltaZ * velocity * Math.sin(this.frontWheel.getTurningAngle()) / 10;
-    else {
-      this.angularVelocity = 0;
-    }
-    this.angle += this.angularVelocity * elapsedTime;
-    this.updateTurningAngle(elapsedTime);
-    console.log(this.velocity);
   };
 
   updateTurningAngle(elapsedTime) {
@@ -138,19 +150,10 @@ class MyCar extends CGFobject {
 
     let wheelThickness = 0.3;
     let wheelSpeed = 0.5;
-    /*
-    this.count++;
-    //console.log(this.count);
-    if (this.count < 500) {
-      this.incForwardAngle(0.05);
-      this.incTurningAngle(-0.002);
-    } else {
-      this.incForwardAngle(-0.05);
-      this.incTurningAngle(0.002);
-    }*/
+
     //Front Left Wheel
     this.scene.pushMatrix();
-    this.scene.translate(this.moved[0], 0, this.moved[1]);
+    this.scene.translate(this.moved[0], this.moved[1], this.moved[2]);
     this.scene.rotate(this.angle, 0, 1, 0);
     this.scene.pushMatrix();
 
@@ -244,8 +247,7 @@ class MyCar extends CGFobject {
     this.scene.popMatrix();
 
     this.scene.pushMatrix();
-    var test = this.auxTextIndex(this.scene, 0);
-    test.apply();
+    this.auxTextIndex(this.scene, 0).apply();
 
     this.scene.translate(0, 0, +1.62);
     this.scene.rotate(Math.PI, 0, 1, 0);
@@ -426,7 +428,7 @@ class MyCar extends CGFobject {
     this.scene.translate(-1, 1.15, 0);
     this.scene.scale(1, 0.6, 5);
     this.scene.rotate(-Math.PI / 2, 0, 1, 0);
-    this.auxTextIndex(this.scene, 2).apply();
+    this.auxTextIndex(this.scene, 3).apply();
     this.quad.display();
 
     this.scene.popMatrix();
@@ -663,5 +665,4 @@ class MyCar extends CGFobject {
     this.scene.popMatrix();
 
   }
-
 };
