@@ -126,6 +126,14 @@ class MyCar extends CGFobject {
       this.velocity[1] = 0;
   };
 
+  auxTextIndex(scene, textIndex) {
+    if (scene.carAppearancesCurrIndex == 1)
+      return scene.carAppearances[1][0];
+    else {
+      return scene.carAppearances[0][textIndex];
+    }
+  };
+
   display() {
 
     let wheelThickness = 0.3;
@@ -187,7 +195,7 @@ class MyCar extends CGFobject {
 
     this.scene.pushMatrix();
 
-    this.scene.blueMetalAppearance.apply();
+    this.auxTextIndex(this.scene, 0).apply();
     this.tireGuardFront.display();
     this.tireGuardFrontSide.display();
 
@@ -236,7 +244,8 @@ class MyCar extends CGFobject {
     this.scene.popMatrix();
 
     this.scene.pushMatrix();
-    this.scene.blueMetalAppearance.apply();
+    var test = this.auxTextIndex(this.scene, 0);
+    test.apply();
 
     this.scene.translate(0, 0, +1.62);
     this.scene.rotate(Math.PI, 0, 1, 0);
@@ -259,7 +268,7 @@ class MyCar extends CGFobject {
     this.scene.translate(-1, 0.7, -1.85);
     this.scene.scale(1, 0.3, 0.9);
     this.scene.rotate(-Math.PI / 2, 0, 1, 0);
-    this.scene.blueMetalAppearance.apply();
+    this.auxTextIndex(this.scene, 0).apply();
     this.quad.display();
 
     this.scene.popMatrix();
@@ -309,7 +318,7 @@ class MyCar extends CGFobject {
     this.scene.translate(1, 0.7, -1.85);
     this.scene.scale(1, 0.3, 0.9);
     this.scene.rotate(Math.PI / 2, 0, 1, 0);
-    this.scene.blueMetalAppearance.apply();
+    this.auxTextIndex(this.scene, 0).apply();
     this.quad.display();
 
     this.scene.popMatrix();
@@ -363,7 +372,7 @@ class MyCar extends CGFobject {
     this.scene.translate(1, 1.15, 0);
     this.scene.scale(1, 0.6, 5);
     this.scene.rotate(Math.PI / 2, 0, 1, 0);
-    this.scene.sideMidLeftAppearance.apply();
+    this.auxTextIndex(this.scene, 2).apply();
     this.quad.display();
 
     this.scene.popMatrix();
@@ -372,7 +381,7 @@ class MyCar extends CGFobject {
     this.scene.translate(1, 0.6, -0.15);
     this.scene.scale(1, 0.5, 2.6);
     this.scene.rotate(Math.PI / 2, 0, 1, 0);
-    this.scene.sideLowLeftAppearance.apply();
+    this.auxTextIndex(this.scene, 7).apply();
     this.quad.display();
 
     this.scene.popMatrix();
@@ -384,7 +393,7 @@ class MyCar extends CGFobject {
     this.scene.translate(1, 0.6, 2.3);
     this.scene.scale(1, 0.5, 0.4);
     this.scene.rotate(Math.PI / 2, 0, 1, 0);
-    this.scene.sideFrontLeftAppearance.apply();
+    this.auxTextIndex(this.scene, 10).apply();
     this.quad.display();
 
     this.scene.popMatrix();
@@ -394,7 +403,7 @@ class MyCar extends CGFobject {
     this.scene.translate(1, 0.6, -2.4);
     this.scene.scale(1, 0.5, 0.2);
     this.scene.rotate(Math.PI / 2, 0, 1, 0);
-    this.scene.sideRearLeftAppearance.apply();
+    this.auxTextIndex(this.scene, 5).apply();
     this.quad.display();
 
     this.scene.popMatrix();
@@ -406,7 +415,7 @@ class MyCar extends CGFobject {
     this.scene.scale(1, 0.552, 5);
     this.scene.rotate(Math.PI / 2, 0, 1, 0);
     this.scene.rotate(-0.10, 1, 0, 0);
-    this.scene.sideHighLeftAppearance.apply();
+    this.auxTextIndex(this.scene, 4).apply();
     this.leftTrapezium.display();
 
     this.scene.popMatrix();
@@ -417,7 +426,7 @@ class MyCar extends CGFobject {
     this.scene.translate(-1, 1.15, 0);
     this.scene.scale(1, 0.6, 5);
     this.scene.rotate(-Math.PI / 2, 0, 1, 0);
-    this.scene.sideMidRightAppearance.apply();
+    this.auxTextIndex(this.scene, 2).apply();
     this.quad.display();
 
     this.scene.popMatrix();
@@ -426,7 +435,7 @@ class MyCar extends CGFobject {
     this.scene.translate(-1, 0.6, -0.15);
     this.scene.scale(1, 0.5, 2.6);
     this.scene.rotate(-Math.PI / 2, 0, 1, 0);
-    this.scene.sideLowRightAppearance.apply();
+    this.auxTextIndex(this.scene, 8).apply();
     this.quad.display();
 
     this.scene.popMatrix();
@@ -438,7 +447,7 @@ class MyCar extends CGFobject {
     this.scene.translate(-1, 0.6, 2.3);
     this.scene.scale(1, 0.5, 0.4);
     this.scene.rotate(-Math.PI / 2, 0, 1, 0);
-    this.scene.sideFrontRightAppearance.apply();
+    this.auxTextIndex(this.scene, 9).apply();
     this.quad.display();
 
     this.scene.popMatrix();
@@ -448,7 +457,7 @@ class MyCar extends CGFobject {
     this.scene.translate(-1, 0.6, -2.4);
     this.scene.scale(1, 0.5, 0.2);
     this.scene.rotate(-Math.PI / 2, 0, 1, 0);
-    this.scene.sideRearRightAppearance.apply();
+    this.auxTextIndex(this.scene, 11).apply();
     this.quad.display();
 
     this.scene.popMatrix();
@@ -460,7 +469,7 @@ class MyCar extends CGFobject {
     this.scene.scale(1, 0.552, 5);
     this.scene.rotate(-Math.PI / 2, 0, 1, 0);
     this.scene.rotate(-0.10, 1, 0, 0);
-    this.scene.sideHighRightAppearance.apply();
+    this.auxTextIndex(this.scene, 6).apply();
     this.rightTrapezium.display();
 
     this.scene.popMatrix();
@@ -471,7 +480,7 @@ class MyCar extends CGFobject {
     this.scene.translate(0, 0.9, -2.5);
     this.scene.scale(2, 1.1, 1);
     this.scene.rotate(Math.PI, 0, 1, 0);
-    this.scene.blueMetalAppearance.apply();
+    this.auxTextIndex(this.scene, 0).apply();
     this.quad.display();
 
     this.scene.popMatrix();
@@ -491,7 +500,7 @@ class MyCar extends CGFobject {
 
     this.scene.translate(0, 0.9, 2.5);
     this.scene.scale(2, 1.1, 1);
-    this.scene.frontAppearance.apply();
+    this.auxTextIndex(this.scene, 1).apply();
     this.quad.display();
     this.scene.popMatrix();
 
@@ -654,4 +663,5 @@ class MyCar extends CGFobject {
     this.scene.popMatrix();
 
   }
+
 };

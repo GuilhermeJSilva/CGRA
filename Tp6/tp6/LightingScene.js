@@ -56,6 +56,9 @@ class LightingScene extends CGFscene {
     this.rimAppearances = new Array();
     this.rimAppearancesCurrIndex = 0;
 
+    this.carAppearances = new Array();
+    this.carAppearancesCurrIndex = 0;
+
     // Scene Appearances
 
     this.vintageRimAppearance = new CGFappearance(this);
@@ -74,6 +77,17 @@ class LightingScene extends CGFscene {
 
     this.windShieldAppearance = new CGFappearance(this);
     this.windShieldAppearance.loadTexture('../resources/images/front.png');
+
+    this.headlightAppearance = new CGFappearance(this);
+    this.headlightAppearance.loadTexture('../resources/images/headlight.png');
+
+    this.blinkerAppearance = new CGFappearance(this);
+    this.blinkerAppearance.loadTexture('../resources/images/blinker.png');
+
+    let tempArray = new Array();
+
+    this.blueMetalAppearance = new CGFappearance(this);
+    this.blueMetalAppearance.loadTexture('../resources/images/blue_metal.png');
 
     this.frontAppearance = new CGFappearance(this);
     this.frontAppearance.loadTexture('../resources/images/front_low.png');
@@ -108,15 +122,18 @@ class LightingScene extends CGFscene {
     this.sideRearLeftAppearance = new CGFappearance(this);
     this.sideRearLeftAppearance.loadTexture('../resources/images/side_rear_left.png');
 
-    this.headlightAppearance = new CGFappearance(this);
-    this.headlightAppearance.loadTexture('../resources/images/headlight.png');
+    this.carAppearances.push(new Array(
+      this.blueMetalAppearance, this.frontAppearance,
+      this.sideMidLeftAppearance, this.sideMidRightAppearance,
+      this.sideHighLeftAppearance, this.sideRearLeftAppearance,
+      this.sideHighRightAppearance, this.sideLowLeftAppearance,
+      this.sideLowRightAppearance, this.sideFrontRightAppearance,
+      this.sideFrontLeftAppearance, this.sideRearRightAppearance));
 
-    this.blinkerAppearance = new CGFappearance(this);
-    this.blinkerAppearance.loadTexture('../resources/images/blinker.png');
+    this.camoAppearance = new CGFappearance(this);
+    this.camoAppearance.loadTexture('../resources/images/camouflage.jpg');
 
-    this.blueMetalAppearance = new CGFappearance(this);
-    this.blueMetalAppearance.loadTexture('../resources/images/blue_metal.png');
-
+    this.carAppearances.push(new Array(this.camoAppearance));
     this.defaultAppearance = new CGFappearance(this);
 
     this.shadowAppearance = new CGFappearance(this);
