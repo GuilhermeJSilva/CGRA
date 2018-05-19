@@ -37,21 +37,22 @@ class LightingScene extends CGFscene {
 
     this.axis = new CGFaxis(this);
     this.altimetry = [
-      [2.0, 3.0, 4.0, 0.0, -0.5, 2.4, 2.3, 1.3],
-      [3.0, 2.0, 1.0, 0.0, 0.0, 0.0, 2.3, 1.3],
-      [1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 2.8, 2.0],
-      [0.0, 0.0, 0.0, 0.0, 0.0, 0.6, 0.0, 0.0],
-      [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.8, 0.6],
-      [0.5, 0.0, 2.0, 4.0, 3.5, 2.4, 0.0, 0.8],
-      [0.4, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.6],
-      [0.6, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.5],
-      [0.3, 3.0, 2.0, 1.0, 2.5, 2.4, 2.3, 0.0]
-    ];
+            [2.0, 3.0, 4.0, 0.0, -0.5, 2.4, 2.3, 1.3],
+            [3.0, 2.0, 1.0, 0.0, 0.0, 0.0, 2.3, 1.3],
+            [1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 2.8, 2.0],
+            [0.0, 0.0, 0.0, 0.0, 0.0, 0.6, 0.0, 0.0],
+            [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.8, 0.6],
+            [0.5, 0.0, 2.0, 4.0, 3.5, 2.4, 0.0, 0.8],
+            [0.4, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.6],
+            [0.6, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.5],
+            [0.3, 3.0, 2.0, 1.0, 2.5, 2.4, 2.3, 0.0]
+        ];
 
     // Scene elements
     this.car = new MyCar(this);
     this.initialCarPos = [0, 5, 0];
     this.floor = new MyTerrain(this, 8, this.altimetry);
+    this.crane = new MyCrane(this, this.car, [0, 0, 8]);
 
     this.rimAppearances = new Array();
     this.rimAppearancesCurrIndex = 0;
@@ -122,6 +123,31 @@ class LightingScene extends CGFscene {
     this.sideRearLeftAppearance = new CGFappearance(this);
     this.sideRearLeftAppearance.loadTexture('../resources/images/side_rear_left.png');
 
+    this.headlightAppearance = new CGFappearance(this);
+    this.headlightAppearance.loadTexture('../resources/images/headlight.png');
+
+    this.blinkerAppearance = new CGFappearance(this);
+    this.blinkerAppearance.loadTexture('../resources/images/blinker.png');
+
+    this.blueMetalAppearance = new CGFappearance(this);
+    this.blueMetalAppearance.loadTexture('../resources/images/blue_metal.png');
+
+    this.defaultAppearance = new CGFappearance(this);
+
+    this.shadowAppearance = new CGFappearance(this);
+    this.shadowAppearance.setSpecular(0, 0, 0, 1);
+    this.shadowAppearance.setDiffuse(0, 0, 0, 1);
+    this.shadowAppearance.setAmbient(0.1, 0.1, 0.1, 1);
+
+    this.sideFrontLeftAppearance = new CGFappearance(this);
+    this.sideFrontLeftAppearance.loadTexture('../resources/images/side_front_left.png');
+
+    this.sideRearRightAppearance = new CGFappearance(this);
+    this.sideRearRightAppearance.loadTexture('../resources/images/side_rear_right.png');
+
+    this.sideRearLeftAppearance = new CGFappearance(this);
+    this.sideRearLeftAppearance.loadTexture('../resources/images/side_rear_left.png');
+
     this.carAppearances.push(new Array(
       this.blueMetalAppearance, this.frontAppearance,
       this.sideMidLeftAppearance, this.sideMidRightAppearance,
@@ -135,11 +161,6 @@ class LightingScene extends CGFscene {
 
     this.carAppearances.push(new Array(this.camoAppearance));
     this.defaultAppearance = new CGFappearance(this);
-
-    this.shadowAppearance = new CGFappearance(this);
-    this.shadowAppearance.setSpecular(0, 0, 0, 1);
-    this.shadowAppearance.setDiffuse(0, 0, 0, 1);
-    this.shadowAppearance.setAmbient(0.1, 0.1, 0.1, 1);
   };
 
   initCameras() {
@@ -212,7 +233,6 @@ class LightingScene extends CGFscene {
 
 
   display() {
-    // ---- BEGIN Background, camera and axis setup
 
     // Clear image and depth buffer everytime we update the scene
     this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
@@ -251,12 +271,16 @@ class LightingScene extends CGFscene {
     // ---- BEGIN Scene drawing section
 
     this.pushMatrix();
-    this.translate(0, 5, 0);
     this.car.display();
     this.popMatrix();
 
     this.pushMatrix();
-    this.floor.display();
+    //this.floor.display();
+    this.popMatrix();
+
+    this.pushMatrix();
+    this.defaultAppearance.apply();
+    this.crane.display();
     this.popMatrix();
     // ---- END Scene drawing section
 
@@ -278,14 +302,16 @@ class LightingScene extends CGFscene {
     if (this.car.velocity[0] < 0)
       this.speed = this.speed * -1;
 
+    this.crane.update(elapsedTime);
+
   }
 
   checkKeys() {
 
     if (this.gui.isKeyPressed("KeyW")) {
-      this.car.setMotorForce(20);
+      this.car.setMotorForce(40);
     } else if (this.gui.isKeyPressed("KeyS")) {
-      this.car.setMotorForce(-20);
+      this.car.setMotorForce(-40);
     } else {
       this.car.setMotorForce(0);
     }
