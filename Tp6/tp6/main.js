@@ -58,6 +58,7 @@ serialInclude([
   'MyCrane.js',
   'MyArticulation.js',
   'MyEndPoint.js',
+  'MyRearviewMirror.js',
 
 	main = function() {
     var app = new CGFapplication(document.body);

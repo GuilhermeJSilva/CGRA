@@ -18,6 +18,8 @@ class MyCar extends CGFobject {
     this.lamp = new MyLamp(this.scene, 18, 20);
     this.cilinder = new MyCilinder(this.scene, 18, 20);
     this.circle = new MyCircle(this.scene, 18);
+    this.mirror = new MyRearviewMirror(this.scene);
+
 
     let incY = 0.7;
     let incZ = 0.7;
@@ -85,7 +87,8 @@ class MyCar extends CGFobject {
     if (this.movementAllowed) {
       this.normalizeVelocity();
 
-      let air_resistance = [-this.velocity[0] * Math.abs(this.velocity[0]) * 6, -this.velocity[1] * Math.abs(this.velocity[1]) * 6];
+      const windForce = 1.2;
+      let air_resistance = [-this.velocity[0] * Math.abs(this.velocity[0]) * windForce, -this.velocity[1] * Math.abs(this.velocity[1]) * windForce];
 
       this.accelaration[0] = (this.motorForce) * Math.sin(this.frontWheel.getTurningAngle() + this.angle) + air_resistance[0];
 
@@ -107,7 +110,7 @@ class MyCar extends CGFobject {
       }
 
       if (velocity != 0 && this.motorForce != 0)
-        this.angularVelocity = this.motorForce / Math.abs(this.motorForce) * 2 * this.deltaZ * velocity * Math.sin(this.frontWheel.getTurningAngle()) / 10;
+        this.angularVelocity = this.motorForce / Math.abs(this.motorForce) * 1 * this.deltaZ * velocity * Math.sin(this.frontWheel.getTurningAngle()) / 10;
       else {
         this.angularVelocity = 0;
       }
@@ -420,6 +423,11 @@ class MyCar extends CGFobject {
     this.auxTextIndex(this.scene, 4).apply();
     this.leftTrapezium.display();
 
+    this.scene.popMatrix();
+
+    this.scene.pushMatrix();
+    this.scene.translate(1, 1.3, 2.5);
+    this.mirror.display();
     this.scene.popMatrix();
 
     //Right Lower Body
