@@ -33,7 +33,8 @@ class LightingScene extends CGFscene {
     this.light4 = true;
 
     this.dis_axis = true;
-    this.speed = 3;
+    this.currSpeed = 3;
+    this.torque = 40;
 
     this.axis = new CGFaxis(this);
     this.altimetry = [
@@ -52,7 +53,8 @@ class LightingScene extends CGFscene {
     this.car = new MyCar(this);
     this.initialCarPos = [0, 5, 0];
     this.floor = new MyTerrain(this, 8, this.altimetry);
-    //this.crane = new MyCrane(this, this.car, [0, 0, 8]);
+    this.crane = new MyCrane(this, this.car, [-10, 0, 8]);
+    this.mirror = new MyRearviewMirror(this);
 
     this.rimAppearances = new Array();
     this.rimAppearancesCurrIndex = 0;
@@ -139,15 +141,17 @@ class LightingScene extends CGFscene {
       this.sideFrontLeftAppearance, this.sideRearRightAppearance));
 
     this.camoAppearance = new CGFappearance(this);
-    this.camoAppearance.setTextureWrap('MIRROR_REPEAT', 'MIRROR_REPEAT');
     this.camoAppearance.loadTexture('../resources/images/camouflage.jpg');
+
+    this.mirrorAppearance = new CGFappearance(this);
+    this.mirrorAppearance.loadTexture('../resources/images/mirror.jpg');
 
     this.carAppearances.push(new Array(this.camoAppearance));
     this.defaultAppearance = new CGFappearance(this);
   };
 
   initCameras() {
-    this.camera = new CGFcamera(0.5, 0.1, 500, vec3.fromValues(45, 45, 45), vec3.fromValues(0, 0, 0));
+    this.camera = new CGFcamera(0.5, 0.1, 500, vec3.fromValues(-5, 5, -5), vec3.fromValues(0, 0, 0));
   };
 
   initLights() {
@@ -262,8 +266,8 @@ class LightingScene extends CGFscene {
     this.popMatrix();
 
     this.pushMatrix();
-    this.defaultAppearance.apply();
-    //this.crane.display();
+    this.blueMetalAppearance.apply();
+    this.crane.display();
     this.popMatrix();
     // ---- END Scene drawing section
 
@@ -279,22 +283,19 @@ class LightingScene extends CGFscene {
     this.car.updatePosition(elapsedTime / 1000);
     this.oldtime = currentTime;
 
-    this.speed = Math.sqrt(Math.pow(this.car.velocity[0], 2) +
+    this.currSpeed = Math.sqrt(Math.pow(this.car.velocity[0], 2) +
       Math.pow(this.car.velocity[1], 2));
 
-    if (this.car.velocity[0] < 0)
-      this.speed = this.speed * -1;
-
-    //this.crane.update(elapsedTime);
+    this.crane.update(elapsedTime);
 
   }
 
   checkKeys() {
 
     if (this.gui.isKeyPressed("KeyW")) {
-      this.car.setMotorForce(40);
+      this.car.setMotorForce(this.torque);
     } else if (this.gui.isKeyPressed("KeyS")) {
-      this.car.setMotorForce(-40);
+      this.car.setMotorForce(-this.torque);
     } else {
       this.car.setMotorForce(0);
     }
