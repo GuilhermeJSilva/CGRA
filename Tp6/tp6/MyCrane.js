@@ -39,6 +39,7 @@ class MyCrane extends CGFobject {
     this.lastFirstAngle = 0;
     this.lastSecondAngle = 0;
 
+    this.car_height = 0;
   };
 
   display() {
@@ -72,7 +73,7 @@ class MyCrane extends CGFobject {
 
     this.tipPosition = pos;
 
-    if (this.state == CraneStates.TurningFromCar || this.state == CraneStates.ReleasingCar) {
+    if (this.state == CraneStates.TurningFromCar) {
       for (let i = 0; i < this.tipPosition.length; i++) {
         if (!this.start) {
           this.car.moved[i] += this.tipPosition[i] - this.lastTipPosition[i];
@@ -88,8 +89,9 @@ class MyCrane extends CGFobject {
     if (this.state != CraneStates.Stopped)
       this.t += elapsedTime / 1000;
 
-    const turning_time = [4, 1, 4, 1, 1];
+    const turning_time = [4, 1, 4, 0.5];
     const sensor_dimension = [1, 0.5];
+
 
     switch (this.state) {
       case CraneStates.Stopped:
@@ -137,11 +139,12 @@ class MyCrane extends CGFobject {
           this.timeElapsed += turning_time[2];
           this.lastFirstAngle = this.firstArt.angle;
           this.lastSecondAngle = this.secondArt.angle;
+          this.car_height = this.car.moved[1];
         }
         break;
 
       case CraneStates.ReleasingCar:
-        this.secondArt.angle = this.lastSecondAngle + Math.PI / 13 * (this.t - this.timeElapsed) / turning_time[3];
+        this.car.moved[1] = this.car_height - this.car_height * (this.t - this.timeElapsed) / turning_time[3];
 
         if ((this.t - this.timeElapsed) >= turning_time[3]) {
           this.state = CraneStates.Reseting;
@@ -153,16 +156,13 @@ class MyCrane extends CGFobject {
         break;
 
       case CraneStates.Reseting:
-        this.secondArt.angle = this.lastSecondAngle - Math.PI / 13 * (this.t - this.timeElapsed) / turning_time[4];
-
-        if ((this.t - this.timeElapsed) >= turning_time[4]) {
           this.state = CraneStates.Stopped;
           this.timeElapsed += turning_time[4];
           this.timeElapsed = 0;
           this.lastFirstAngle = 0;
           this.lastSecondAngle = 0;
           this.t = 0;
-        }
+
         break;
       default:
 
