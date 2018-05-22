@@ -8,7 +8,9 @@ class MyTerrain extends Plane {
     this.initGLBuffers();
     this.scene = scene;
     this.scene.terrainAppearance = new CGFappearance(this.scene);
-    this.scene.terrainAppearance.loadTexture("../resources/images/terrain.jpg")
+    this.scene.terrainAppearance.loadTexture("../resources/images/terrain.jpg");
+    this.scene.terrainAppearance.setTextureWrap('REPEAT', 'REPEAT');
+
   }
 
   display() {
