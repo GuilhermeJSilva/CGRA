@@ -51,6 +51,9 @@ class MyInterface extends CGFinterface {
 
     this.gui.add(this.scene, 'rimAppearancesCurrIndex', rimOptions);
 
+    this.gui.add(this.scene, 'carAppearancesCurrIndex', carOptions);
+
+
     return true;
   };
 
