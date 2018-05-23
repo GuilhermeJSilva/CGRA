@@ -44,8 +44,6 @@ serialInclude([
 	'MyCircle.js',
 	'MyClock.js',
 	'MyClockHand.js',
-	'MyAirplane.js',
-	'MovingAirplane.js',
 	'MyTrapezium.js',
 	'MyWheel.js',
  	'MyCar.js',

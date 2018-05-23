@@ -5,6 +5,8 @@ class MyTerrain extends Plane {
     for (var i = 2; i < this.vertices.length; i += 3, j++) {
       this.vertices[i] += altimetry[Math.floor(j / altimetry.length)][j % (altimetry[Math.floor(j / altimetry.length)].length + 1)];
     }
+
+    
     this.initGLBuffers();
     this.scene = scene;
     this.scene.terrainAppearance = new CGFappearance(this.scene);
