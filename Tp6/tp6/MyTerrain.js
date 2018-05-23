@@ -19,7 +19,13 @@ class MyTerrain extends Plane {
             tmp[k] = this.vertices[neighbors[j] + k] - this.vertices[i + k];
           }
           this.normalize(tmp);
-          if (tmp[1] / Math.abs(tmp[1]) == tmp[2] / Math.abs(tmp[2])) {
+          if(tmp[1] == 0){
+            normal[1] = normal[1] - Math.abs(tmp[2] == 0 ? 0 : 1 / tmp[2]);
+          }
+          else if (tmp[2] == 0){
+            normal[2] = normal[2] - Math.abs(tmp[1] == 0 ? 0 : 1 / tmp[1]);
+          }
+          else if (tmp[1] / Math.abs(tmp[1]) == tmp[2] / Math.abs(tmp[2])) {
             normal[1] = normal[1] + Math.abs(tmp[1] == 0 ? 0 : 1 / tmp[1]);
             normal[2] = normal[2] - Math.abs(tmp[2] == 0 ? 0 : 1 / tmp[2]);
           } else {
@@ -32,7 +38,13 @@ class MyTerrain extends Plane {
             tmp[k] = this.vertices[neighbors[j] + k] - this.vertices[i + k];
           }
           this.normalize(tmp);
-          if (tmp[2] / Math.abs(tmp[2]) == tmp[0] / Math.abs(tmp[0])) {
+          if(tmp[0] == 0){
+            normal[0] = normal[0] - Math.abs(tmp[2] == 0 ? 0 : 1 / tmp[2]);
+          }
+          else if (tmp[2] == 0){
+            normal[2] = normal[2] - Math.abs(tmp[0] == 0 ? 0 : 1 / tmp[0]);
+          }
+          else if (tmp[2] / Math.abs(tmp[2]) == tmp[0] / Math.abs(tmp[0])) {
             normal[2] = normal[2] + Math.abs(tmp[2] == 0 ? 0 : 1 / tmp[2]);
             normal[0] = normal[0] - Math.abs(tmp[0] == 0 ? 0 : 1 / tmp[0]);
           } else {
