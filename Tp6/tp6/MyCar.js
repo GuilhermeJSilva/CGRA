@@ -98,10 +98,6 @@ class MyCar extends CGFobject {
       this.moved[0] += this.velocity * Math.sin(turningAngle) * elapsedTime;
       this.moved[2] += this.velocity * Math.cos(turningAngle) * elapsedTime;
 
-      console.log("acc: " + this.accelaration);
-      console.log("vel: " + this.velocity);
-      console.log("ar: " + air_resistance);
-
       this.incForwardAngle(this.velocity * elapsedTime / this.wheelRadius);
       this.angularVelocity = 1 * this.deltaZ * this.velocity * Math.sin(this.frontWheel.getTurningAngle()) / 10;
 
