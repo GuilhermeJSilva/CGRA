@@ -94,9 +94,9 @@ class MyCar extends CGFobject {
       this.accelaration = this.motorForce - air_resistance;
 
       this.velocity += this.accelaration * elapsedTime;
-
-      this.moved[0] += this.velocity * Math.sin(this.frontWheel.getTurningAngle() + this.angle) * elapsedTime;
-      this.moved[2] += this.velocity * Math.cos(this.frontWheel.getTurningAngle() + this.angle) * elapsedTime;
+      let turningAngle = this.angle;
+      this.moved[0] += this.velocity * Math.sin(turningAngle) * elapsedTime;
+      this.moved[2] += this.velocity * Math.cos(turningAngle) * elapsedTime;
 
       console.log("acc: " + this.accelaration);
       console.log("vel: " + this.velocity);
@@ -123,8 +123,8 @@ class MyCar extends CGFobject {
   };
 
   normalizeVelocity() {
-    let velocityError = 0.001;
-    if (this.velocity < velocityError)
+    let velocityError = 0.25;
+    if (Math.abs(this.velocity) < velocityError)
       this.velocity = 0;
   };
 

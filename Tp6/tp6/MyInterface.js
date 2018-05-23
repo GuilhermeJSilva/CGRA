@@ -48,7 +48,7 @@ class MyInterface extends CGFinterface {
     // min and max values can be specified as parameters
 
     const maxTorque = 100;
-    this.gui.add(this.scene, 'currSpeed', 0, maxTorque/10).listen();
+    this.gui.add(this.scene, 'currSpeed', -maxTorque/10, maxTorque/10).listen();
     this.gui.add(this.scene, 'torque', 0, maxTorque).listen();
 
     this.gui.add(this.scene, 'rimAppearancesCurrIndex', rimOptions);
