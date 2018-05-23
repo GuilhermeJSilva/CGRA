@@ -19,7 +19,7 @@ class MyCar extends CGFobject {
     this.cilinder = new MyCilinder(this.scene, 18, 20);
     this.circle = new MyCircle(this.scene, 18);
     this.mirror = new MyRearviewMirror(this.scene);
-
+    this.rightMirror = new MyRearviewMirror(this.scene, 5 * Math.PI / 3);
 
     let incY = 0.7;
     let incZ = 0.7;
@@ -407,10 +407,11 @@ class MyCar extends CGFobject {
     this.leftTrapezium.display();
 
     this.scene.popMatrix();
-
     this.scene.pushMatrix();
-    this.scene.translate(1, 1.3, 2.5);
+
+    this.scene.translate(0.8, 1.3, 2.3);
     this.mirror.display();
+
     this.scene.popMatrix();
 
     //Right Lower Body
@@ -464,6 +465,12 @@ class MyCar extends CGFobject {
     this.scene.rotate(-0.10, 1, 0, 0);
     this.auxTextIndex(this.scene, 6).apply();
     this.rightTrapezium.display();
+
+    this.scene.popMatrix();
+    this.scene.pushMatrix();
+
+    this.scene.translate(-0.8, 1.3, 2.3);
+    this.rightMirror.display();
 
     this.scene.popMatrix();
     this.scene.defaultAppearance.apply();
