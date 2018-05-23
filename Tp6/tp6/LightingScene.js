@@ -151,7 +151,7 @@ class LightingScene extends CGFscene {
   };
 
   initCameras() {
-    this.camera = new CGFcamera(0.5, 0.1, 500, vec3.fromValues(-5, 5, -5), vec3.fromValues(0, 0, 0));
+    this.camera = new CGFcamera(0.5, 0.1, 500, vec3.fromValues(-50, 50, -50), vec3.fromValues(0, 0, 0));
   };
 
   initLights() {
@@ -283,8 +283,7 @@ class LightingScene extends CGFscene {
     this.car.updatePosition(elapsedTime / 1000);
     this.oldtime = currentTime;
 
-    this.currSpeed = Math.sqrt(Math.pow(this.car.velocity[0], 2) +
-      Math.pow(this.car.velocity[1], 2));
+    this.currSpeed = this.car.velocity;
 
     this.crane.update(elapsedTime);
 
