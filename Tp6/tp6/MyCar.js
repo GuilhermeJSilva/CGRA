@@ -33,7 +33,7 @@ class MyCar extends CGFobject {
     let pp2 = [0.999, 0.35 + incY, 1 * (p1[2] - p4[2]) / 3 + p4[2] + incZ];
     let pp3 = [0.999, 0.35 + incY, 2 * (p1[2] - p4[2]) / 3 + p4[2] - incZ];
 
-    this.tireGuardFront = new BezierTrans(this.scene, 10, [-0.5 / 10, 0, 0], p1, p2, p3, p4, 0.1);
+    this.tireGuardFront = new BezierTrans(this.scene, 10, [-0.7 / 10, 0, 0], p1, p2, p3, p4, 0.1);
     this.tireGuardFrontSide = new BezierTrans(this.scene, 10, [0, 0.5 / 10, 0], pp1, pp2, pp3, pp4, 0.1);
     //this.tireGuardFront = new BezierTrans(this.scene, 20, [-0.5 / 20, 0, 0], [1, 0.35 + incY, 2.1 + incZ], [1, 1 + incY, 1.8], [1, 1 + incY, 1.4 + incZ], [1, 0.35 + incY, 1.1 + incZ], 0.01);
     //this.tireGuardFrontSide = new BezierTrans(this.scene, 20, [0, 0.5 / 20, 0], [0.999, 0.35 + incY, 2.1 + incZ], [0.999, 0.85 + incY, 1.8 + incZ], [0.999, 0.85 + incY, 1.4], [0.999, 0.35 + incY, 1.1 + incZ], 0.01);
@@ -152,39 +152,30 @@ class MyCar extends CGFobject {
     this.scene.shadowAppearance.apply();
     this.scene.pushMatrix();
 
-    this.scene.translate(0.6, 0.6, 1.6);
-    this.scene.scale(1, 0.5, 1);
+    this.scene.translate(0.4, 0.65, 1.6);
+    this.scene.scale(1, 0.6, 1);
     this.scene.rotate(Math.PI / 2, 0, 1, 0);
     this.quad.display();
 
     this.scene.popMatrix();
+    this.auxTextIndex(this.scene, 0).apply();
     this.scene.pushMatrix();
 
-    this.scene.translate(0.8, 0.6, 1.1);
-    this.scene.scale(0.4, 0.5, 1);
+    this.scene.translate(0.7, 0.6, 1.1);
+    this.scene.scale(0.6, 0.5, 1);
     this.quad.display();
 
     this.scene.popMatrix();
     this.scene.pushMatrix();
 
-    this.scene.translate(0.8, 0.6, 2.1);
-    this.scene.scale(0.4, 0.5, 1);
+    this.scene.translate(0.7, 0.6, 2.1);
+    this.scene.scale(0.6, 0.5, 1);
     this.scene.rotate(Math.PI, 0, 1, 0);
     this.quad.display();
 
     this.scene.popMatrix();
     this.scene.pushMatrix();
 
-    this.scene.translate(0.8, 0.85, 1.6);
-    this.scene.scale(0.4, 0.4, 1);
-    this.scene.rotate(Math.PI / 2, 1, 0, 0);
-    this.quad.display();
-
-    this.scene.popMatrix();
-
-    this.scene.pushMatrix();
-
-    this.auxTextIndex(this.scene, 0).apply();
     this.tireGuardFront.display();
     this.tireGuardFrontSide.display();
 
@@ -199,41 +190,32 @@ class MyCar extends CGFobject {
     this.frontWheel.display();
 
     this.scene.popMatrix();
-    this.scene.defaultAppearance.apply();
+    this.scene.shadowAppearance.apply();
     this.scene.pushMatrix();
 
-    this.scene.translate(-0.6, 0.6, 1.6);
-    this.scene.scale(1, 0.5, 1);
+    this.scene.translate(-0.4, 0.65, 1.6);
+    this.scene.scale(1, 0.6, 1);
     this.scene.rotate(-Math.PI / 2, 0, 1, 0);
     this.quad.display();
 
     this.scene.popMatrix();
+    this.auxTextIndex(this.scene, 0).apply();
     this.scene.pushMatrix();
 
-    this.scene.translate(-0.8, 0.6, 1.1);
-    this.scene.scale(0.4, 0.5, 1);
+    this.scene.translate(-0.7, 0.6, 1.1);
+    this.scene.scale(0.6, 0.5, 1);
     this.quad.display();
 
     this.scene.popMatrix();
     this.scene.pushMatrix();
 
-    this.scene.translate(-0.8, 0.6, 2.1);
-    this.scene.scale(0.4, 0.5, 1);
+    this.scene.translate(-0.7, 0.6, 2.1);
+    this.scene.scale(0.6, 0.5, 1);
     this.scene.rotate(Math.PI, 0, 1, 0);
     this.quad.display();
 
     this.scene.popMatrix();
     this.scene.pushMatrix();
-
-    this.scene.translate(-0.8, 0.85, 1.6);
-    this.scene.scale(0.4, 0.4, 1);
-    this.scene.rotate(Math.PI / 2, 1, 0, 0);
-    this.quad.display();
-
-    this.scene.popMatrix();
-
-    this.scene.pushMatrix();
-    this.auxTextIndex(this.scene, 0).apply();
 
     this.scene.translate(0, 0, +1.62);
     this.scene.rotate(Math.PI, 0, 1, 0);
@@ -263,7 +245,7 @@ class MyCar extends CGFobject {
     this.scene.shadowAppearance.apply();
     this.scene.pushMatrix();
 
-    this.scene.translate(-0.6, 0.6, -1.85);
+    this.scene.translate(-0.4, 0.6, -1.85);
     this.scene.scale(1, 0.5, 0.9);
     this.scene.rotate(-Math.PI / 2, 0, 1, 0);
     this.quad.display();
@@ -271,23 +253,23 @@ class MyCar extends CGFobject {
     this.scene.popMatrix();
     this.scene.pushMatrix();
 
-    this.scene.translate(-0.8, 0.6, -2.3);
-    this.scene.scale(0.4, 0.5, 1);
+    this.scene.translate(-0.7, 0.6, -2.3);
+    this.scene.scale(0.6, 0.5, 1);
     this.quad.display();
 
     this.scene.popMatrix();
     this.scene.pushMatrix();
 
-    this.scene.translate(-0.8, 0.6, -1.4);
-    this.scene.scale(0.4, 0.5, 1);
+    this.scene.translate(-0.7, 0.6, -1.4);
+    this.scene.scale(0.6, 0.5, 1);
     this.scene.rotate(Math.PI, 0, 1, 0);
     this.quad.display();
 
     this.scene.popMatrix();
     this.scene.pushMatrix();
 
-    this.scene.translate(-0.8, 0.85, -1.85);
-    this.scene.scale(0.4, 0.4, 0.9);
+    this.scene.translate(-0.7, 0.85, -1.85);
+    this.scene.scale(0.6, 0.4, 0.9);
     this.scene.rotate(Math.PI / 2, 1, 0, 0);
     this.quad.display();
 
@@ -313,7 +295,7 @@ class MyCar extends CGFobject {
     this.scene.shadowAppearance.apply();
     this.scene.pushMatrix();
 
-    this.scene.translate(0.6, 0.6, -1.85);
+    this.scene.translate(0.4, 0.6, -1.85);
     this.scene.scale(1, 0.5, 0.9);
     this.scene.rotate(Math.PI / 2, 0, 1, 0);
     this.quad.display();
@@ -322,23 +304,23 @@ class MyCar extends CGFobject {
 
     this.scene.pushMatrix();
 
-    this.scene.translate(0.8, 0.6, -2.3);
-    this.scene.scale(0.4, 0.5, 1);
+    this.scene.translate(0.7, 0.6, -2.3);
+    this.scene.scale(0.6, 0.5, 1);
     this.quad.display();
 
     this.scene.popMatrix();
     this.scene.pushMatrix();
 
-    this.scene.translate(0.8, 0.6, -1.4);
-    this.scene.scale(0.4, 0.5, 1);
+    this.scene.translate(0.7, 0.6, -1.4);
+    this.scene.scale(0.6, 0.5, 1);
     this.scene.rotate(Math.PI, 0, 1, 0);
     this.quad.display();
 
     this.scene.popMatrix();
     this.scene.pushMatrix();
 
-    this.scene.translate(0.8, 0.85, -1.85);
-    this.scene.scale(0.4, 0.4, 0.9);
+    this.scene.translate(0.7, 0.85, -1.85);
+    this.scene.scale(0.6, 0.4, 0.9);
     this.scene.rotate(Math.PI / 2, 1, 0, 0);
     this.quad.display();
 
