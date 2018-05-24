@@ -151,6 +151,7 @@ class MyCrane extends CGFobject {
           this.timeElapsed += turning_time[3];
           this.lastFirstAngle = this.firstArt.angle;
           this.lastSecondAngle = this.secondArt.angle;
+          this.car.moved[1] = 0;
           this.car.allowMovement();
         }
         break;
