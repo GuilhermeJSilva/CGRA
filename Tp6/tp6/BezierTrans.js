@@ -87,8 +87,6 @@ class BezierTrans extends CGFobject {
         this.indices.push(i + this.initial_vertices.length / 3, i, i - 1 + this.initial_vertices.length / 3);
       }
     }
-    console.log(indices_size);
-    console.log(this.indices.length);
   }
   setCurve() {
     for (var t = 0; t <= 1; t += this.step) {

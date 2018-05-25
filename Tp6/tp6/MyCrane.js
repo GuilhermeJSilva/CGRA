@@ -40,6 +40,7 @@ class MyCrane extends CGFobject {
     this.lastSecondAngle = 0;
 
     this.car_height = 0;
+    console.log(this.sensor_position);
   };
 
   display() {
@@ -97,8 +98,8 @@ class MyCrane extends CGFobject {
       case CraneStates.Stopped:
         if ((this.sensor_position[0] - sensor_dimension[0] <= this.car.moved[0]
         && this.sensor_position[0] + sensor_dimension[0] >= this.car.moved[0])
-        && (this.sensor_position[1] - sensor_dimension[1] <= this.car.moved[2]
-        && this.sensor_position[1] + sensor_dimension[1] >= this.car.moved[2])){
+        && (this.sensor_position[2] - sensor_dimension[1] <= this.car.moved[2]
+        && this.sensor_position[2] + sensor_dimension[1] >= this.car.moved[2])){
           this.car.restrictMovement();
           this.state = CraneStates.TurningToCar;
         }
