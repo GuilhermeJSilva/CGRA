@@ -101,12 +101,6 @@ class LightingScene extends CGFscene {
     this.sideMidRightAppearance = new CGFappearance(this);
     this.sideMidRightAppearance.loadTexture('../resources/images/side_mid_right.png');
 
-    this.sideHighLeftAppearance = new CGFappearance(this);
-    this.sideHighLeftAppearance.loadTexture('../resources/images/side_high_left.png');
-
-    this.sideHighRightAppearance = new CGFappearance(this);
-    this.sideHighRightAppearance.loadTexture('../resources/images/side_high_right.png');
-
     this.sideLowLeftAppearance = new CGFappearance(this);
     this.sideLowLeftAppearance.loadTexture('../resources/images/side_low_left.png');
 
@@ -135,8 +129,8 @@ class LightingScene extends CGFscene {
     this.carAppearances.push(new Array(
       this.blueMetalAppearance, this.frontAppearance,
       this.sideMidLeftAppearance, this.sideMidRightAppearance,
-      this.sideHighLeftAppearance, this.sideRearLeftAppearance,
-      this.sideHighRightAppearance, this.sideLowLeftAppearance,
+      this.sideRearLeftAppearance,
+      this.defaultAppearance, this.sideLowLeftAppearance,
       this.sideLowRightAppearance, this.sideFrontRightAppearance,
       this.sideFrontLeftAppearance, this.sideRearRightAppearance));
 
@@ -148,6 +142,12 @@ class LightingScene extends CGFscene {
 
     this.carAppearances.push(new Array(this.camoAppearance));
     this.defaultAppearance = new CGFappearance(this);
+
+    this.windowAppearance = new CGFappearance(this);
+    this.windowAppearance.loadTexture('../resources/images/glass.png');
+
+    this.plateAppearance = new CGFappearance(this);
+    this.plateAppearance.loadTexture('../resources/images/plate.png');
   };
 
   initCameras() {
