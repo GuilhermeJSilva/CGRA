@@ -54,7 +54,7 @@ class LightingScene extends CGFscene {
     this.car = new MyCar(this);
     this.initialCarPos = [0, 5, 0];
     this.floor = new MyTerrain(this, 8, this.altimetry);
-    this.crane = new MyCrane(this, this.car, [-10, 0, 0]);
+    this.crane = new MyCrane(this, this.car, [0, 0, -8]);
     this.mirror = new MyRearviewMirror(this);
 
     this.rimAppearances = new Array();

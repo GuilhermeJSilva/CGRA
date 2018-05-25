@@ -40,7 +40,7 @@ class MyCrane extends CGFobject {
     this.lastSecondAngle = 0;
 
     this.car_height = 0;
-    console.log(this.sensor_position);
+    this.car_angle = 0;
   };
 
   display() {
@@ -125,13 +125,14 @@ class MyCrane extends CGFobject {
           this.timeElapsed += turning_time[1];
           this.lastFirstAngle = this.firstArt.angle;
           this.lastSecondAngle = this.secondArt.angle;
+          this.car_angle = this.car.angle;
 
         }
         break;
 
       case CraneStates.TurningFromCar:
         this.firstArt.angle = this.lastFirstAngle - Math.PI * (this.t - this.timeElapsed) / turning_time[2];
-
+        this.car.angle = this.car_angle - Math.PI * (this.t - this.timeElapsed) / turning_time[2];
         if (this.t - this.timeElapsed <= 1)
           this.secondArt.angle = this.lastSecondAngle - Math.PI / 13 * (this.t - this.timeElapsed);
 
