@@ -40,6 +40,7 @@ class MyCrane extends CGFobject {
     this.lastSecondAngle = 0;
 
     this.car_height = 0;
+    this.car_angle = 0;
   };
 
   display() {
@@ -55,9 +56,9 @@ class MyCrane extends CGFobject {
     this.scene.popMatrix();
 
     this.scene.pushMatrix();
-    pos[0] += this.firstArt.armlength * Math.sin(Math.PI / 2 - this.firstArt.armAngle) * Math.sin(this.firstArt.angle);
-    pos[1] += this.firstArt.armlength * Math.cos(Math.PI / 2 - this.firstArt.armAngle);
-    pos[2] += this.firstArt.armlength * Math.sin(Math.PI / 2 - this.firstArt.armAngle) * Math.cos(this.firstArt.angle);
+    pos[0] += this.firstArt.armlength * Math.cos(this.firstArt.armAngle) * Math.sin(this.firstArt.angle);
+    pos[1] += this.firstArt.armlength * Math.sin(this.firstArt.armAngle);
+    pos[2] += this.firstArt.armlength * Math.cos(this.firstArt.armAngle) * Math.cos(this.firstArt.angle);
     this.scene.translate(pos[0], pos[1], pos[2]);
     this.scene.rotate(this.firstArt.angle, 0, 1, 0);
     this.secondArt.display();
@@ -97,8 +98,8 @@ class MyCrane extends CGFobject {
       case CraneStates.Stopped:
         if ((this.sensor_position[0] - sensor_dimension[0] <= this.car.moved[0]
         && this.sensor_position[0] + sensor_dimension[0] >= this.car.moved[0])
-        && (this.sensor_position[1] - sensor_dimension[1] <= this.car.moved[2]
-        && this.sensor_position[1] + sensor_dimension[1] >= this.car.moved[2])){
+        && (this.sensor_position[2] - sensor_dimension[1] <= this.car.moved[2]
+        && this.sensor_position[2] + sensor_dimension[1] >= this.car.moved[2])){
           this.car.restrictMovement();
           this.state = CraneStates.TurningToCar;
         }
@@ -124,13 +125,14 @@ class MyCrane extends CGFobject {
           this.timeElapsed += turning_time[1];
           this.lastFirstAngle = this.firstArt.angle;
           this.lastSecondAngle = this.secondArt.angle;
+          this.car_angle = this.car.angle;
 
         }
         break;
 
       case CraneStates.TurningFromCar:
         this.firstArt.angle = this.lastFirstAngle - Math.PI * (this.t - this.timeElapsed) / turning_time[2];
-
+        this.car.angle = this.car_angle - Math.PI * (this.t - this.timeElapsed) / turning_time[2];
         if (this.t - this.timeElapsed <= 1)
           this.secondArt.angle = this.lastSecondAngle - Math.PI / 13 * (this.t - this.timeElapsed);
 
@@ -151,6 +153,7 @@ class MyCrane extends CGFobject {
           this.timeElapsed += turning_time[3];
           this.lastFirstAngle = this.firstArt.angle;
           this.lastSecondAngle = this.secondArt.angle;
+          this.car.moved[1] = 0;
           this.car.allowMovement();
         }
         break;
