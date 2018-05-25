@@ -56,9 +56,9 @@ class MyCrane extends CGFobject {
     this.scene.popMatrix();
 
     this.scene.pushMatrix();
-    pos[0] += this.firstArt.armlength * Math.sin(Math.PI / 2 - this.firstArt.armAngle) * Math.sin(this.firstArt.angle);
-    pos[1] += this.firstArt.armlength * Math.cos(Math.PI / 2 - this.firstArt.armAngle);
-    pos[2] += this.firstArt.armlength * Math.sin(Math.PI / 2 - this.firstArt.armAngle) * Math.cos(this.firstArt.angle);
+    pos[0] += this.firstArt.armlength * Math.cos(this.firstArt.armAngle) * Math.sin(this.firstArt.angle);
+    pos[1] += this.firstArt.armlength * Math.sin(this.firstArt.armAngle);
+    pos[2] += this.firstArt.armlength * Math.cos(this.firstArt.armAngle) * Math.cos(this.firstArt.angle);
     this.scene.translate(pos[0], pos[1], pos[2]);
     this.scene.rotate(this.firstArt.angle, 0, 1, 0);
     this.secondArt.display();
