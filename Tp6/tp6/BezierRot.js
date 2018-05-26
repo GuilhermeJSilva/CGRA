@@ -51,7 +51,7 @@ class BezierRot extends CGFobject {
         this.texCoords.push(i * 1/this.initial_vertices.length);
       }
     }
-
+    /*
     for (var step = 0; step <= this.angle_steps; step++) {
       for (var i = 0; i < this.initial_vertices.length; i += 3) {
         this.vertices.push(this.initial_vertices[i]);
@@ -65,7 +65,7 @@ class BezierRot extends CGFobject {
         this.texCoords.push(step * this.tex_reps/this.angle_steps);
         this.texCoords.push(i * 1/this.initial_vertices.length);
       }
-    }
+    }*/
 
     for (var i = 0; i < this.vertices.length / 3 - this.initial_vertices.length / 3; i++) {
       if ((i) % (this.initial_vertices.length / 3) != (this.initial_vertices.length / 3 - 1)) {
@@ -75,7 +75,15 @@ class BezierRot extends CGFobject {
         this.indices.push(i, i + this.initial_vertices.length / 3, i - 1 + this.initial_vertices.length / 3);
       }
     }
+    var string = "draw3d("
+    for (var i = 0; i < this.vertices.length; i += 3) {
+      // string += "vector(" + "[" + this.vertices[i] + "," + this.vertices[i + 2] + "," + this.vertices[i + 1] + "],";
+      // string += "[" + this.normals[i] + "," + this.normals[i + 2] + "," + this.normals[i + 1] + "]),";
+      console.log("Vertice: " + this.vertices[i] + " " + this.vertices[i + 1] + " " + this.vertices[i + 2]);
+      console.log("Normals: " + this.normals[i] + " " + this.normals[i + 1] + " " + this.normals[i + 2]);
 
+    }
+    // console.log(string);
 
   }
   setCurve() {
