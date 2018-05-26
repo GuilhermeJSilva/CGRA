@@ -51,7 +51,7 @@ class BezierRot extends CGFobject {
         this.texCoords.push(i * 1/this.initial_vertices.length);
       }
     }
-    /*
+
     for (var step = 0; step <= this.angle_steps; step++) {
       for (var i = 0; i < this.initial_vertices.length; i += 3) {
         this.vertices.push(this.initial_vertices[i]);
@@ -65,14 +65,23 @@ class BezierRot extends CGFobject {
         this.texCoords.push(step * this.tex_reps/this.angle_steps);
         this.texCoords.push(i * 1/this.initial_vertices.length);
       }
-    }*/
+    }
 
-    for (var i = 0; i < this.vertices.length / 3 - this.initial_vertices.length / 3; i++) {
+    for (var i = 0; i < this.vertices.length/ 2 / 3 - this.initial_vertices.length / 3; i++) {
       if ((i) % (this.initial_vertices.length / 3) != (this.initial_vertices.length / 3 - 1)) {
         this.indices.push(i, i + 1, i + this.initial_vertices.length / 3);
       }
       if ((i) % (this.initial_vertices.length / 3) != 0) {
         this.indices.push(i, i + this.initial_vertices.length / 3, i - 1 + this.initial_vertices.length / 3);
+      }
+    }
+
+    for (var i = this.vertices.length/ 2 ; i < this.vertices.length / 3 - this.initial_vertices.length / 3; i++) {
+      if ((i) % (this.initial_vertices.length / 3) != (this.initial_vertices.length / 3 - 1)) {
+        this.indices.push(i + 1, i , i + this.initial_vertices.length / 3);
+      }
+      if ((i) % (this.initial_vertices.length / 3) != 0) {
+        this.indices.push(i + this.initial_vertices.length / 3, i, i - 1 + this.initial_vertices.length / 3);
       }
     }
 
