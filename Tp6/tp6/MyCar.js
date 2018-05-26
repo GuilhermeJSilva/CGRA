@@ -37,9 +37,29 @@ class MyCar extends CGFobject {
 
     this.tireGuardFront = new BezierTrans(this.scene, 10, [-0.7 / 10, 0, 0], p1, p2, p3, p4, 0.1);
     this.tireGuardFrontSide = new BezierTrans(this.scene, 10, [0, 0.5 / 10, 0], pp1, pp2, pp3, pp4, 0.1);
-    //this.tireGuardFront = new BezierTrans(this.scene, 20, [-0.5 / 20, 0, 0], [1, 0.35 + incY, 2.1 + incZ], [1, 1 + incY, 1.8], [1, 1 + incY, 1.4 + incZ], [1, 0.35 + incY, 1.1 + incZ], 0.01);
-    //this.tireGuardFrontSide = new BezierTrans(this.scene, 20, [0, 0.5 / 20, 0], [0.999, 0.35 + incY, 2.1 + incZ], [0.999, 0.85 + incY, 1.8 + incZ], [0.999, 0.85 + incY, 1.4], [0.999, 0.35 + incY, 1.1 + incZ], 0.01);
 
+    /*let r1 = [2.5, 3, -1];
+    let r2 = [2.5, 3, -0.5];
+    let r3 = [2.5, 3, 0.5];
+    let r4 = [2.5, 3, 1]; */
+    let r1 = [-0.9, 0, 0];
+    let r2 = [-0.6, 0.4, 0];
+    let r3 = [0.6, 0.4, 0];
+    let r4 = [0.9, 0, 0];
+
+    let rm1 = [-0.9, 2, 2.11];
+    let rm2 = [-0.6, 2.4, 2.11];
+    let rm3 = [0.6, 2.4, 2.11];
+    let rm4 = [0.9, 2, 2.11];
+
+    let re1 = [-0.9, 0, 0];
+    let re2 = [-0.6, 0.4, 0];
+    let re3 = [0.6, 0.4, 0];
+    let re4 = [0.9, 0, 0];
+
+    this.roofFront = new BezierRot(this.scene, 10, Math.PI / 2 / 10, r4, r3, r2, r1, 0.1, 1);
+    this.roofMiddle = new BezierTrans(this.scene, 10, [0, 0, -4.9 / 10], rm1, rm2, rm3, rm4, 0.1);
+    this.roofEnd = new BezierRot(this.scene, 10, -Math.PI / 2 / 10, re1, re2, re3, re4, 0.1, 1);
     //scene, slices, trans_vector, p1, p2, p3, p4, step)
 
     //Physics variables
@@ -139,10 +159,12 @@ class MyCar extends CGFobject {
     let wheelThickness = 0.3;
     let wheelSpeed = 0.5;
 
-    //Front Left Wheel
+
     this.scene.pushMatrix();
     this.scene.translate(this.moved[0], this.moved[1], this.moved[2]);
     this.scene.rotate(this.angle, 0, 1, 0);
+    this.scene.scale(1, 0.83, 0.99);
+    //Front Left Wheel
     this.scene.pushMatrix();
 
     this.scene.translate(0.8, 0.35, 1.65);
@@ -335,6 +357,22 @@ class MyCar extends CGFobject {
     this.scene.scale(1.8, 1, 4.75);
     this.scene.rotate(-Math.PI / 2, 1, 0, 0);
     this.quad.display();
+
+    this.scene.popMatrix();
+    this.scene.pushMatrix();
+    this.scene.translate(0, 2, 2.1);
+    this.scene.defaultAppearance.apply();
+    this.roofFront.display();
+
+    this.scene.popMatrix();
+    this.scene.pushMatrix();
+
+    this.roofMiddle.display();
+
+    this.scene.popMatrix();
+    this.scene.pushMatrix();
+    this.scene.translate(0, 2, -2.3);
+    this.roofEnd.display();
 
     this.scene.popMatrix();
 

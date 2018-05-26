@@ -56,6 +56,9 @@ class LightingScene extends CGFscene {
     this.floor = new MyTerrain(this, 8, this.altimetry);
     this.crane = new MyCrane(this, this.car, [0, 0, -8]);
     this.mirror = new MyRearviewMirror(this);
+    this.quad = new MyQuad(this);
+
+
 
     this.rimAppearances = new Array();
     this.rimAppearancesCurrIndex = 0;
@@ -152,7 +155,7 @@ class LightingScene extends CGFscene {
   };
 
   initCameras() {
-    this.camera = new CGFcamera(0.5, 0.1, 500, vec3.fromValues(-50, 50, -50), vec3.fromValues(0, 0, 0));
+    this.camera = new CGFcamera(0.5, 0.1, 500, vec3.fromValues(0, 7, 7), vec3.fromValues(0, 0, 0));
   };
 
   initLights() {
@@ -269,6 +272,13 @@ class LightingScene extends CGFscene {
     this.pushMatrix();
     this.blueMetalAppearance.apply();
     this.crane.display();
+    this.popMatrix();
+
+    this.pushMatrix();
+    this.translate(0, 2, 0);
+    this.rotate(Math.PI / 2, 1, 0, 0);
+    this.scale(3, 3, 3);
+    this.quad.display();
     this.popMatrix();
     // ---- END Scene drawing section
 
