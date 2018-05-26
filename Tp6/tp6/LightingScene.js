@@ -56,7 +56,7 @@ class LightingScene extends CGFscene {
     this.floor = new MyTerrain(this, 8, this.altimetry);
     this.crane = new MyCrane(this, this.car, [0, 0, -8]);
     this.mirror = new MyRearviewMirror(this);
-
+    this.bezier = new BezierRot(this, 10, Math.PI/20, [10,0,0], [10,10,0], [-10,10,0],[-10,0,0], 0.01,1 );
     this.rimAppearances = new Array();
     this.rimAppearancesCurrIndex = 0;
 
@@ -270,6 +270,8 @@ class LightingScene extends CGFscene {
     this.blueMetalAppearance.apply();
     this.crane.display();
     this.popMatrix();
+
+    this.bezier.display()
     // ---- END Scene drawing section
 
     this.checkKeys();

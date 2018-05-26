@@ -11,8 +11,6 @@ class BezierRot extends CGFobject {
     The curve must be in the x, y plane
      */
 
-    //TODO - Ask the teacher if an object can oclude himself
-    // when calculating the light.
     super(scene);
 
     this.angle_steps = angle_steps;
