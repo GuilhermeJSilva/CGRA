@@ -57,9 +57,9 @@ class MyCar extends CGFobject {
     let re3 = [0.6, 0.4, 0];
     let re4 = [0.9, 0, 0];
 
-    this.roofFront = new BezierRot(this.scene, 10, Math.PI / 2 / 10, r4, r3, r2, r1, 0.1, 1);
-    this.roofMiddle = new BezierTrans(this.scene, 10, [0, 0, -4.9 / 10], rm1, rm2, rm3, rm4, 0.1);
-    this.roofEnd = new BezierRot(this.scene, 10, -Math.PI / 2 / 10, re1, re2, re3, re4, 0.1, 1);
+    this.roofFront = new BezierRot(this.scene, 100, Math.PI / 2 / 100, r4, r3, r2, r1, 0.01, 1);
+    this.roofMiddle = new BezierTrans(this.scene, 10, [0, 0, -4.9 / 10], rm1, rm2, rm3, rm4, 0.01);
+    this.roofEnd = new BezierRot(this.scene, 100, -Math.PI / 2 / 100, re1, re2, re3, re4, 0.01, 1);
     //scene, slices, trans_vector, p1, p2, p3, p4, step)
 
     //Physics variables
