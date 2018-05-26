@@ -56,9 +56,6 @@ class LightingScene extends CGFscene {
     this.floor = new MyTerrain(this, 8, this.altimetry);
     this.crane = new MyCrane(this, this.car, [0, 0, -8]);
     this.mirror = new MyRearviewMirror(this);
-    this.quad = new MyQuad(this);
-
-
 
     this.rimAppearances = new Array();
     this.rimAppearancesCurrIndex = 0;
@@ -274,12 +271,6 @@ class LightingScene extends CGFscene {
     this.crane.display();
     this.popMatrix();
 
-    this.pushMatrix();
-    this.translate(0, 2, 0);
-    this.rotate(Math.PI / 2, 1, 0, 0);
-    this.scale(3, 3, 3);
-    this.quad.display();
-    this.popMatrix();
     // ---- END Scene drawing section
 
     this.checkKeys();
